@@ -1,3 +1,9 @@
-<div>
-    {{ form (participantForm)}}
-</div>
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div>
+        {{ form (participantForm)}}
+    </div>
+{% endblock %}
+
+{% block title %}{{ parent() }} | Accueil{% endblock %}

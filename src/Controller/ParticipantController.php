@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\GestionProfilType;
+use App\Repository\ParticipantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,7 +17,16 @@ class ParticipantController extends Controller
      * @Route("/monProfil", name ="monProfil")
      */
     public function gestionParticipant(){
+
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository(Participant::class);
+
         $participant = new Participant();
+
+        $participant = $repo->findByIdentifiant('mm.cc@jojo.fr');
+
+
+
         $participantForm = $this->createForm(GestionProfilType::class, $participant);
 
 

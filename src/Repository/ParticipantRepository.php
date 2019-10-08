@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Participant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 /**
  * @method Participant|null find($id, $lockMode = null, $lockVersion = null)
@@ -25,11 +27,15 @@ class ParticipantRepository extends ServiceEntityRepository
      * @return mixed
      */
     public function findByIdentifiant($identifiant){
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.mail = :mail')
-            ->setParameter('mail', $identifiant)
-            ->getQuery()
-            ->getResult();
+        try {
+            return $this->createQueryBuilder('p')
+                ->andWhere('p.mail = :mail')
+                ->setParameter('mail', $identifiant)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $e) {
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     // /**
