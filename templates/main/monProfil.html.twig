@@ -2,7 +2,18 @@
 
 {% block main %}
     <div>
-        {{ form (participantForm)}}
+        {{ form_start (participantForm)}}
+
+        {{ form_row(participantForm.nom) }}
+        {{ form_row(participantForm.prenom) }}
+        {{ form_row(participantForm.telephone) }}
+        {{ form_row(participantForm.mail) }}
+        {{ form_row(participantForm.mot_de_passe) }}
+
+        <button type="submit"> Valider </button>
+        <button type="reset"> Annuler </button>
+
+        {{ form_end (participantForm) }}
     </div>
 {% endblock %}
 
