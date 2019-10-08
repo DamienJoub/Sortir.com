@@ -19,6 +19,19 @@ class ParticipantRepository extends ServiceEntityRepository
         parent::__construct($registry, Participant::class);
     }
 
+    /**
+     * méthode qui retourne les données du participant passé en parametre.
+     * @param $identifiant
+     * @return mixed
+     */
+    public function findByIdentifiant($identifiant){
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.mail = :mail')
+            ->setParameter('mail', $identifiant)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Participant[] Returns an array of Participant objects
     //  */
