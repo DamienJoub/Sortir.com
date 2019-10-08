@@ -25,14 +25,14 @@ class ParticipantController extends Controller
         $participant = new Participant();
 
         $participant = $repo->findByIdentifiant('mm.cc@jojo.fr');
-        $participantForm = $this->createForm(GestionProfilType::class, $participant);
+        $participantForm = $this->createForm(GestionProfilType::class, $participant,["participant" => $participant]);
         $participantForm->handleRequest($request);
 
         if($participantForm->isSubmitted() && $participantForm->isValid()){
             return $this->redirectToRoute("main_home");
         }
 
-
+        var_dump($participant->getCampus()->getNom());
         return $this->render("main/monProfil.html.twig",[
             "participantForm" => $participantForm->createView()
         ]);
