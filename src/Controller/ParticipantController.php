@@ -17,7 +17,7 @@ class ParticipantController extends Controller
      */
     public function gestionParticipant(){
         $participant = new Participant();
-        $participantForm = $this->createForm(Participant::class, $participant);
+        $participantForm = $this->createForm(GestionProfilType::class, $participant);
 
 
         return $this->render("main/monProfil.html.twig",[
