@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h1>Créer le compte du participant</h1>
+
+    {{ form(form) }}
+
+{#    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">GO!</button>
+    {{ form_end(form) }}#}
+{% endblock %}
+
+{% block title %}{{ parent() }} | Cr&eacute;er participant{% endblock %}

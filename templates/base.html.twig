@@ -25,24 +25,27 @@
         <nav>
             <ul>
                 <li><a href="{{ path("main_home") }}" title="Sortir.com | Accueil">Accueil</a></li>
-                {#<li><a href="{{ path("idea_list") }}" title="Latest ideas">Latest ideas</a></li>
+                {#<li><a href="{{ path("monProfil") }}" title="Profil">Mon Profil</a></li>#}
                 {% if is_granted("ROLE_USER") %}
-                    <li><a href="{{ path("idea_add") }}" title="Add your ideas!">Add your ideas!</a></li>
+                    {#<li><a href="{{ path("idea_add") }}" title="Add your ideas!">Add your ideas!</a></li>
+                    <li><a href="#" title="Add your ideas!">TEST</a></li>#}
+                    <li><a href="{{ path("monProfil") }}" title="Mon profil">Mon profil</a></li>
                 {% endif %}
                 {% if is_granted("ROLE_ADMIN") %}
-                    <li><a href="{{ path("category_list") }}" title="Latest categorys">Latest categorys</a></li>
+                    <li><a href="{{ path("register") }}" title="Créer compte">Créer un compte</a></li>
+                    {#<li><a href="{{ path("monProfil") }}" title="Creer profil">Cr&eacute;er un profil</a></li>#}
                 {% endif %}
-                <li><a href="{{ path("main_about_us") }}" title="Latest ideas">About us</a></li>#}
+                {#<li><a href="{{ path("main_about_us") }}" title="Latest ideas">About us</a></li>#}
             </ul>
-           {# <ul>
+            <ul>
                 {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN")  %}
-                    <li><a href="#" disabled>Hi {{ app.user.username }}!</a></li>
-                    <li><a href="{{ path("logout") }}" title="Logout">Logout</a></li>
+                    <li><a href="#" disabled>Bonjour {{ app.participant.prenom }}!</a></li>
+                    <li><a href="{{ path("logout") }}" title="Deconnexion">D&eacute;connexion</a></li>
                 {% else %}
-                    <li><a href="{{ path("register") }}" title="Register">Register</a></li>
-                    <li><a href="{{ path("login") }}" title="Login">Login</a></li>
+                    {#<li><a href="{{ path("register") }}" title="Créer compte">Register</a></li>#}
+                    <li><a href="{{ path("login") }}" title="Connexion">Connexion</a></li>
                 {% endif %}
-            </ul>#}
+            </ul>
         </nav>
     </header>
 

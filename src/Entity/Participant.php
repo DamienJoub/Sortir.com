@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ParticipantRepository")
  */
-class Participant
+class Participant implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -202,5 +203,58 @@ class Participant
         $this->actif = $actif;
 
         return $this;
+    }
+
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $roles = [];
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function setRoles($roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRole($role): self
+    {
+
+        $roles = $this->roles;
+        $roles[] = $role;
+        $this->roles = array_unique($roles);
+
+        return $this;
+    }
+
+    public function getSalt(){return null;}
+    public function eraseCredentials(){}
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text
+     * password will be salted, encoded, and then compared to this value.
+     *
+     * @return string|null The encoded password if any
+     */
+    public function getPassword()
+    {
+        return $this->mot_de_passe;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->mail;
     }
 }

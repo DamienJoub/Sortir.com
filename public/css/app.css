@@ -50,6 +50,11 @@ header
     font-size: 48px;
 }
 
+.site-title:hover {
+    text-decoration: none;
+    color: #2FBBF4;
+}
+
 .site-title img {
     height: 48px;
     display: block;
