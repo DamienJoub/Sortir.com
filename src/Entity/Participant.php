@@ -111,6 +111,11 @@ class Participant implements UserInterface
     private $roles = [];
 
     /**
+     * @ORM\Column(name="roles", type="array")
+     */
+    //private $roles = array();
+
+    /**
      * @return mixed
      */
     public function getSortiesOrganisation()
@@ -249,7 +254,9 @@ class Participant implements UserInterface
 
     public function getRoles()
     {
-        return $this->roles;
+        //return $this->roles;
+        return array('ROLE_USER');
+        //return $this->roles->toArray();
     }
 
     public function setRoles($roles): self
