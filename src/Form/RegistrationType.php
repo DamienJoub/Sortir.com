@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\BooleanType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -33,7 +34,7 @@ class RegistrationType extends AbstractType
                 'second_options' => array('label' => 'Répéter mot de passe'),
                 'invalid_message' => 'Vos mots de passe ne sont pas identiques!'
             ))
-            ->add('administrateur', NumberType::class)
+            ->add('administrateur', CheckboxType::class, ['required' => false])
             ->add('campus', EntityType::class,  array(
 
                 'class' => Campus::class,

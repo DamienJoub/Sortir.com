@@ -17,6 +17,10 @@
             <label for="remember_me" class="form-check-inline">Se souvenir de moi</label>
         </div>
 
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
+
         {% if error %}
             <div><ul><li>{{ error.messageKey|trans(error.messageData, 'security') }}</li></ul></div>
         {% endif %}

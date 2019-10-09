@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\RegistrationType;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -41,9 +42,15 @@ class SecurityController extends Controller
             }
             $participant->setActif(true);
             $em->persist($participant);
-            $em->flush();
 
-            $this->addFlash("success", "Your account has been created!");
+            try{
+                $em->flush();
+            }catch (UniqueConstraintViolationException $e){
+                $this->addFlash("info", "Cet email existe déjà");
+                return $this->redirectToRoute("register");
+            }
+
+            $this->addFlash("success", "Votre compte a bien été créé!");
             return $this->redirectToRoute("login");
         }
 
