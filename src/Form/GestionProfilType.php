@@ -19,7 +19,8 @@ class GestionProfilType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('mail')
-            ->add('mot_de_passe',PasswordType::class, array('required' => false))
+            ->add('mot_de_passe', PasswordType::class, array(
+                'mapped' => false, 'required' => false))
             ->add('confirmation', PasswordType::class, array(
                 'mapped' => false, 'required' => false
             ))

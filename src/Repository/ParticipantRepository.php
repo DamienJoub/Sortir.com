@@ -34,6 +34,7 @@ class ParticipantRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getSingleResult();
         } catch (NoResultException $e) {
+            return null;
         } catch (NonUniqueResultException $e) {
         }
     }

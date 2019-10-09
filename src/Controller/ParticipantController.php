@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Campus;
 use App\Entity\Participant;
 use App\Form\GestionProfilType;
 use App\Form\RegistrationType;
@@ -17,6 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+
+
 class ParticipantController extends Controller
 {
 
@@ -27,19 +30,32 @@ class ParticipantController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository(Participant::class);
+        $repoCampus = $em->getRepository(Campus::class);
 
         $participant = new Participant();
-        $participantForm = $this->createForm(GestionProfilType::class, $participant);
-
         $participant = $repo->findByIdentifiant('mm.cc@jojo.fr');
         $participantForm = $this->createForm(GestionProfilType::class, $participant,["participant" => $participant]);
+
+
         $participantForm->handleRequest($request);
 
         if($participantForm->isSubmitted() && $participantForm->isValid()){
+            if($participantForm->get('mot_de_passe')->getData() != null &&
+                $participantForm->get('confirmation')->getData()  != null &&
+                $participantForm->get('mot_de_passe')->getData() == $participantForm->get('confirmation')->getData()){
+                $participant->setMotDePasse($participantForm->get('mot_de_passe')->getData());
+            }
+            $participant->setNom($participantForm->get('nom')->getData());
+            $participant->setPrenom($participantForm->get('prenom')->getData());
+            $participant->setTelephone($participantForm->get('telephone')->getData());
+            $participant->setMail($participantForm->get('mail')->getData());
+            $participant->setCampus($repoCampus->findOneBy(["nom" => $participantForm->get('campus')->getData()]));
+
+            $em->persist($participant);
+            $em->flush();
             return $this->redirectToRoute("main_home");
         }
 
-        var_dump($participant->getCampus()->getNom());
         return $this->render("main/monProfil.html.twig",[
             "participantForm" => $participantForm->createView()
         ]);
