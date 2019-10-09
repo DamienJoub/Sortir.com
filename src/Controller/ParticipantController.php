@@ -27,7 +27,7 @@ class ParticipantController extends Controller
     /**
      * @Route("/monProfil", name ="monProfil")
      */
-    public function gestionParticipant(Request $request){
+    public function gestionParticipant(Request $request, UserPasswordEncoderInterface $passwordEncoder){
 
         //Si l'identifiant de l'utilisatuer est renseigné
         if($this->getUser() != null){
@@ -47,7 +47,7 @@ class ParticipantController extends Controller
                 if($participantForm->get('mot_de_passe')->getData() != null &&
                     $participantForm->get('confirmation')->getData()  != null &&
                     $participantForm->get('mot_de_passe')->getData() == $participantForm->get('confirmation')->getData()){
-                    $participant->setMotDePasse($participantForm->get('mot_de_passe')->getData());
+                    $participant->setMotDePasse($passwordEncoder->encodePassword($participant, $participantForm->get('mot_de_passe')->getData()));
                 }
 
                 $participant->setNom($participantForm->get('nom')->getData());
@@ -60,9 +60,11 @@ class ParticipantController extends Controller
                 try{
                     $em->flush();
                 }catch (UniqueConstraintViolationException $e){
+                    $this->addFlash("danger", "Cette addresse e-mail est déjà prise par un autre utilisateur.");
                     return $this->redirectToRoute("monProfil");
                 }
 
+                $this->addFlash('success', "Votre profil à été mis à jour.");
                 return $this->redirectToRoute("main_home");
             }
 
