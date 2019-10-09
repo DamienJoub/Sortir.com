@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ParticipantRepository")
  */
-class Participant
+class Participant implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -18,28 +19,63 @@ class Participant
     private $id;
 
     /**
+     *  @Assert\Length(
+     *      min = 1,
+     *      max = 50,
+     *      minMessage = "Votre nom doit faire au moins {{ limit }} caractères de long",
+     *      maxMessage = "Votre nom ne doit pas faire plus de {{ limit }} caractères"
+     * )
+     * @Assert\Regex(pattern="/^[a-z0-9_-]+$/i", message="Votre nom ne doit contenir que des lettres, des nombres, des underscores et des tirets!")
+     *
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank(message="Veuillez saisir un nom")
      */
     private $nom;
 
     /**
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 50,
+     *      minMessage = "Votre prénom doit faire au moins {{ limit }} caractères de long",
+     *      maxMessage = "Votre prénom ne doit pas faire plus de {{ limit }} caractères"
+     * )
+     * @Assert\Regex(pattern="/^[a-z0-9_-]+$/i", message="Votre prénom ne doit contenir que des lettres, des nombres, des underscores et des tirets!")
+     *
      * @ORM\Column(type="string", length=30)
      */
     private $prenom;
 
     /**
+     *      @Assert\Length(
+     *      min = 10,
+     *      max = 10,
+     *      minMessage = "Votre numéro de téléphone doit faire au moins {{ limit }} caractères de long",
+     *      maxMessage = "Votre numéro de téléphone ne doit pas faire plus de {{ limit }} caractères"
+     * )
+     * @Assert\Regex(pattern="/^[0-9]+$/i", message="Votre numéro de téléphone ne doit contenir que des nombres!")
+     *
      * @ORM\Column(type="string", length=15, nullable=true)
      */
     private $telephone;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(message="Votre mail ne doit pas être vide")
+     * @Assert\Email(message="Votre mail n'est pas valide!")
+     *
+     * @ORM\Column(type="string", length=100, unique=true)
      */
     private $mail;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(message="Votre mot de passe ne peux pas être vide")
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 4096,
+     *      minMessage = "Votre mot de passe doit faire au moins {{ limit }} caractères de long",
+     *      maxMessage = "Votre mot de passe doit faire moins de {{ limit }} caractères"
+     * )
+     *
+     * @ORM\Column(type="string", length=4096)
      */
     private $mot_de_passe;
 
@@ -68,6 +104,11 @@ class Participant
      * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", mappedBy="participants_p")
      */
     private $sortie_participation;
+
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $roles = [];
 
     /**
      * @return mixed
@@ -204,5 +245,53 @@ class Participant
         $this->actif = $actif;
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function setRoles($roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRole($role): self
+    {
+
+        $roles = $this->roles;
+        $roles[] = $role;
+        $this->roles = array_unique($roles);
+
+        return $this;
+    }
+
+    public function getSalt(){return null;}
+    public function eraseCredentials(){}
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text
+     * password will be salted, encoded, and then compared to this value.
+     *
+     * @return string|null The encoded password if any
+     */
+    public function getPassword()
+    {
+        return $this->mot_de_passe;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->mail;
     }
 }

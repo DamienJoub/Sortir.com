@@ -4,9 +4,9 @@ security:
         my_provider:
             entity:
                 #Chemin vers l entite
-                class: App\Entity\User
+                class: App\Entity\Participant
                 #Propriete utilisee pour l authentification
-                #property: username
+                property: mail
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -32,6 +32,9 @@ security:
                 secret:   '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
                 path:     /
+            guard:
+                authenticators:
+                    - App\Security\ParticipantAuthenticator
             # activate different ways to authenticate
 
             # http_basic: true
@@ -43,15 +46,15 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/category, roles: ROLE_ADMIN }
-        - { path: ^/ideas/add, roles: ROLE_USER }
-        - { path: ^/ideas/del, roles: ROLE_USER }
+        #- { path: ^/category, roles: ROLE_ADMIN }
+        #- { path: ^/ideas/add, roles: ROLE_USER }
+        #- { path: ^/ideas/del, roles: ROLE_USER }
 
     #hierarchy des roles: ici ROLE_ADMIN a aussi les droits de ROLE_USER
-    #role_hierarchy:
-    #    ROLE_ADMIN: ROLE_USER
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
 
     #Encodage pour le mot de passe
     encoders:
-        App\Entity\User:
+        App\Entity\Participant:
             algorithm: argon2i
