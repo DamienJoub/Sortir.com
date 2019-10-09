@@ -29,22 +29,14 @@ class ParticipantController extends Controller
      */
     public function gestionParticipant(Request $request){
 
-        $session = $request->getSession();
-
-        //*********************
-        //Bouchon
-        $session->set('identifiant', 'mm.cc@jojo.fr');
-        //fin du bouchon
-        //*********************
-
         //Si l'identifiant de l'utilisatuer est renseigné
-        if($session->has('identifiant')){
+        if($this->getUser() != null){
 
             $em = $this->getDoctrine()->getManager();
             $repo = $em->getRepository(Participant::class);
 
             $participant = new Participant();
-            $participant = $repo->findByIdentifiant($session->get('identifiant'));
+            $participant = $repo->findByIdentifiant($this->getUser()->getMail());
             $participantForm = $this->createForm(GestionProfilType::class, $participant,["participant" => $participant]);
 
 
