@@ -30,7 +30,6 @@ class ParticipantController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository(Participant::class);
-        $repoCampus = $em->getRepository(Campus::class);
 
         $participant = new Participant();
         $participant = $repo->findByIdentifiant('mm.cc@jojo.fr');
@@ -49,7 +48,7 @@ class ParticipantController extends Controller
             $participant->setPrenom($participantForm->get('prenom')->getData());
             $participant->setTelephone($participantForm->get('telephone')->getData());
             $participant->setMail($participantForm->get('mail')->getData());
-            $participant->setCampus($repoCampus->findOneBy(["nom" => $participantForm->get('campus')->getData()]));
+            $participant->setCampus($participantForm->get('campus')->getData());
 
             $em->persist($participant);
             $em->flush();

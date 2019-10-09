@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,7 +26,7 @@ class GestionProfilType extends AbstractType
             ->add('confirmation', PasswordType::class, array(
                 'mapped' => false, 'required' => false
             ))
-            ->add('campus',TextType::class, ["label" => "Campus", "data" => $participant->getCampus()->getNom()])
+            ->add('campus',EntityType::class, ["class"=>Campus::class, "choice_label"=>"nom", "label" => "Campus", "data" => $participant->getCampus()])
         ;
     }
 
