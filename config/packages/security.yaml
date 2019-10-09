@@ -4,9 +4,9 @@ security:
         my_provider:
             entity:
                 #Chemin vers l entite
-                class: App\Entity\Participant
+                class: App\Entity\User
                 #Propriete utilisee pour l authentification
-                property: mail
+                #property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -43,15 +43,15 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-       # - { path: ^/category, roles: ROLE_ADMIN }
-       # - { path: ^/ideas/add, roles: ROLE_USER }
-       # - { path: ^/ideas/del, roles: ROLE_USER }
+        - { path: ^/category, roles: ROLE_ADMIN }
+        - { path: ^/ideas/add, roles: ROLE_USER }
+        - { path: ^/ideas/del, roles: ROLE_USER }
 
     #hierarchy des roles: ici ROLE_ADMIN a aussi les droits de ROLE_USER
-    role_hierarchy:
-        ROLE_ADMIN: ROLE_USER
+    #role_hierarchy:
+    #    ROLE_ADMIN: ROLE_USER
 
     #Encodage pour le mot de passe
     encoders:
-        App\Entity\Participant:
+        App\Entity\User:
             algorithm: argon2i
