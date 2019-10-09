@@ -46,7 +46,7 @@ class SecurityController extends Controller
             try{
                 $em->flush();
             }catch (UniqueConstraintViolationException $e){
-                $this->addFlash("info", "Cet email existe déjà");
+                $this->addFlash("danger", "Cet email existe déjà");
                 return $this->redirectToRoute("register");
             }
 

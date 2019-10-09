@@ -8,10 +8,10 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
     {#<link href="{{ asset('open-iconic/font/css/open-iconic.css') }}" rel="stylesheet">#}
     <link rel="icon" href="{{ asset('img/S.png') }}">
-    {#<script src="{{ asset("js/jquery.min.js") }}"></script>
+    <script src="{{ asset("js/jquery.min.js") }}"></script>
     <script src="{{ asset('js/popper.js') }}"></script>
     <script src="{{ asset('js/tooltip.js') }}"></script>
-    <script src="{{ asset("bootstrap/js/bootstrap.min.js") }}"></script>#}
+    <script src="{{ asset("bootstrap/js/bootstrap.min.js") }}"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
@@ -23,29 +23,19 @@
             <img src="{{ asset('img/logo.png') }}" alt="Sortir.com logo">
         </a>
         <nav>
-            {% if is_granted("ROLE_USER") %}
-                ZIZI
-            {% endif %}
-            {% if is_granted("ROLE_ADMIN") %}
-                UIUI
-            {% endif %}
             <ul>
                 <li><a href="{{ path("main_home") }}" title="Sortir.com | Accueil">Accueil</a></li>
-                {#<li><a href="{{ path("monProfil") }}" title="Profil">Mon Profil</a></li>#}
                 {% if is_granted("ROLE_USER") %}
-                    {#<li><a href="{{ path("idea_add") }}" title="Add your ideas!">Add your ideas!</a></li>
-                    <li><a href="#" title="Add your ideas!">TEST</a></li>#}
                     <li><a href="{{ path("monProfil") }}" title="Mon profil">Mon profil</a></li>
                 {% endif %}
                 {% if is_granted("ROLE_ADMIN") %}
                     <li><a href="{{ path("register") }}" title="Créer compte">Créer un compte</a></li>
-                    {#<li><a href="{{ path("monProfil") }}" title="Creer profil">Cr&eacute;er un profil</a></li>#}
+                    <li><a href="{{ path("monProfil") }}" title="Mon profil">Mon profil</a></li>
                 {% endif %}
-                {#<li><a href="{{ path("main_about_us") }}" title="Latest ideas">About us</a></li>#}
             </ul>
             <ul>
                 {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN")  %}
-                    <li><a href="#" disabled>Bonjour {{ app.user.prenom }}!</a></li>
+                    <li><a href="" disabled>Bonjour {{ app.user.prenom }}!</a></li>
                     <li><a href="{{ path("logout") }}" title="Deconnexion">D&eacute;connexion</a></li>
                 {% else %}
                     {#<li><a href="{{ path("register") }}" title="Créer compte">Register</a></li>#}
