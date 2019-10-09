@@ -56,9 +56,15 @@ header
 }
 
 .site-title img {
-    height: 48px;
+    height: 130px;
     display: block;
     /*margin-right: 5px;*/
+}
+@media screen and (max-width: 600px) {
+    .site-title img {
+        height: 75px;
+        /*margin-right: 5px;*/
+    }
 }
 
 header nav ul {
