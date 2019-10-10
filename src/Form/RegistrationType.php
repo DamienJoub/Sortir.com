@@ -34,7 +34,6 @@ class RegistrationType extends AbstractType
                 'second_options' => array('label' => 'Répéter mot de passe'),
                 'invalid_message' => 'Vos mots de passe ne sont pas identiques!'
             ))
-            ->add('administrateur', CheckboxType::class, ['required' => false])
             ->add('campus', EntityType::class,  array(
 
                 'class' => Campus::class,
@@ -48,7 +47,8 @@ class RegistrationType extends AbstractType
                 }
 
             ))
-            ->add('send', SubmitType::class, ['label' => 'Valider'])
+            ->add('administrateur', CheckboxType::class, ['required' => false])
+
         ;
     }
 

@@ -3,7 +3,13 @@
 {% block main %}
     <h1>Créer le compte du participant</h1>
 
-    {{ form(form) }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="form-button">
+        <button type="submit" class="btn btn-primary">Valider</button>
+        <button type="reset" class="btn btn-secondary">Effacer</button>
+    </div>
+    {{ form_end(form) }}
 {% endblock %}
 
 {% block title %}{{ parent() }} | Cr&eacute;er participant{% endblock %}

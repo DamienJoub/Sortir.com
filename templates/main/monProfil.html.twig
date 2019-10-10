@@ -1,22 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <div>
         {{ form_start (participantForm)}}
 
-        {{ form_row(participantForm.nom) }}
-        {{ form_row(participantForm.prenom) }}
-        {{ form_row(participantForm.telephone) }}
-        {{ form_row(participantForm.mail) }}
-        {{ form_row(participantForm.mot_de_passe) }}
-        {{ form_row(participantForm.confirmation) }}
-        {{ form_row(participantForm.campus) }}
+        {{ form_widget(participantForm) }}
 
-        <button type="submit"> Valider </button>
-        <button type="reset"> Annuler </button>
+        <div class="form-button">
+            <button type="submit" class="btn btn-primary">Valider</button>
+            <button type="reset" class="btn btn-secondary">Effacer</button>
+        </div>
 
         {{ form_end (participantForm) }}
-    </div>
 {% endblock %}
 
 {% block title %}{{ parent() }} | Accueil{% endblock %}

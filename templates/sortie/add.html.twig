@@ -3,5 +3,12 @@
 {% block main %}
     <h2>Création sortie</h2>
 
-    {{ form(sortieForm) }}
+    {{ form_start(sortieForm) }}
+    {{ form_widget(sortieForm) }}
+
+    <div class="form-button">
+        <button type="submit" class="btn btn-primary">Valider</button>
+        <button type="reset" class="btn btn-secondary">Effacer</button>
+    </div>
+    {{ form_end(sortieForm) }}
 {% endblock %}

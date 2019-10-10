@@ -1,0 +1,42 @@
+form > div:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-group {
+    width: 50%;
+    flex-direction: column;
+    flex-wrap: unset;
+}
+
+.form-group label {
+    max-width: unset;
+    min-height: unset;
+}
+
+.form-group .col-sm-10 {
+    max-width: unset;
+    min-height: unset;
+}
+
+.form-button {
+    display: flex;
+    width: 25%;
+    justify-content: space-between;
+    margin: auto;
+}
+
+@media screen and (max-width: 750px) {
+    form > div:first-child {
+        display: block;
+    }
+
+    .form-group {
+        width: 100%;
+        margin-left: 0;
+    }
+    .form-button {
+        width: 50%;
+    }
+}
