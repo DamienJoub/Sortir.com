@@ -77,4 +77,11 @@ class ParticipantController extends Controller
             return $this->redirectToRoute("main_home");
         }
     }
+
+    /**
+     * @Route("/profile/{id}", name = "profile")
+     */
+    public function afficherProfil(){
+
+    }
 }
