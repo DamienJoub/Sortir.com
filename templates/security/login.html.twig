@@ -2,15 +2,15 @@
 
 {% block title %}Log in!{% endblock %}
 
-{% block body %}
+{% block main %}
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    {% if app.participant %}
+    {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.participant.nom }}, <a href="{{ path('logout') }}">Logout</a>
+            You are logged in as {{ app.user.nom }}, <a href="{{ path('logout') }}">Logout</a>
         </div>
     {% endif %}
 

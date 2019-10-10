@@ -1,11 +1,17 @@
 {% extends 'base.html.twig' %}
 
+{% block header %}
+        <a class="site-title" href="{{ path('main_home') }}" title="Sortir.com | Accueil">
+            <img src="{{ asset('img/logo.png') }}" alt="Sortir.com logo">
+        </a>
+{% endblock %}
+
 {% block main %}
     <h1>Login</h1>
 
     <form action="{{ path('login') }}" method="post">
         <div>
-            <label for="username">Nom d'utilisateur (mail) :</label>
+            <label for="username">Adresse mail :</label>
             <input type="text" id="username" name="_username" value="{{ last_username }}" />
         </div>
         <div>
@@ -16,10 +22,6 @@
             <input type="checkbox" id="remember_me" name="_remember_me" checked/>
             <label for="remember_me" class="form-check-inline">Se souvenir de moi</label>
         </div>
-
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
 
         {% if error %}
             <div><ul><li>{{ error.messageKey|trans(error.messageData, 'security') }}</li></ul></div>

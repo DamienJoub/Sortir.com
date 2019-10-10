@@ -19,12 +19,13 @@
 <body>
 <div class="container">
     <header>
-        <a class="site-title" href="{{ path('main_home') }}" title="Sortir.com | Accueil">
+        {% block header %}
+        <a class="site-title" href="{{ path('home') }}" title="Sortir.com | Accueil">
             <img src="{{ asset('img/logo.png') }}" alt="Sortir.com logo">
         </a>
         <nav>
             <ul>
-                <li><a href="{{ path("main_home") }}" title="Sortir.com | Accueil">Accueil</a></li>
+                <li><a href="{{ path("home") }}" title="Sortir.com | Accueil">Accueil</a></li>
                 {% if is_granted("ROLE_USER") %}
                     <li><a href="{{ path("monProfil") }}" title="Mon profil">Mon profil</a></li>
                 {% endif %}
@@ -38,14 +39,12 @@
                     <li><a href="" disabled>Bonjour {{ app.user.prenom }}!</a></li>
                     <li><a href="{{ path("logout") }}" title="Deconnexion">D&eacute;connexion</a></li>
                 {% else %}
-                    {#<li><a href="{{ path("register") }}" title="Créer compte">Register</a></li>#}
                     <li><a href="{{ path("login") }}" title="Connexion">Connexion</a></li>
-
                     <li><a href="{{ path("register") }}" title="Créer compte">Créer un compte</a></li>
-
                 {% endif %}
             </ul>
         </nav>
+        {% endblock %}
     </header>
 
     <main>
