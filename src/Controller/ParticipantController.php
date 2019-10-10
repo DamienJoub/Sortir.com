@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Campus;
 use App\Entity\Participant;
+use App\Entity\Sortie;
 use App\Form\GestionProfilType;
 use App\Form\RegistrationType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -38,7 +39,6 @@ class ParticipantController extends Controller
             $participant = new Participant();
             $participant = $repo->findByIdentifiant($this->getUser()->getMail());
             $participantForm = $this->createForm(GestionProfilType::class, $participant,["participant" => $participant]);
-
 
             $participantForm->handleRequest($request);
 

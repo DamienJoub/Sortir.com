@@ -14,7 +14,7 @@ security:
         main:
             pattern: ^/
             provider: my_provider
-            anonymous: true
+            anonymous: ~
             #Route pour le login et la validation du login
             form_login:
                 login_path: login

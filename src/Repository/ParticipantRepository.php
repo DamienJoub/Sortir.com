@@ -39,6 +39,30 @@ class ParticipantRepository extends ServiceEntityRepository
         }
     }
 
+
+    /**
+     * méthode qui retourne la list des participants d'une sortie donnée.
+     * @param $sortie
+     * @param $user
+     * @return mixed
+     *
+     * SELECT p.id, p.campus, p.nom, p.prenom, p.telephone, p.mail, p.mot_de_passe, p.administrateur, p.actif, p.roles
+    FROM participant p
+    INNER JOIN sortie_participant sp
+    ON p.id = sp.participant_id
+    INNER join sortie s
+    ON sp.sortie_id = s.id;
+     *
+     */
+    public function findBySortie($sortie){
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.sortie_participation', 's')
+            ->andWhere('s.id = :sortieId')
+            ->setParameter('sortieId' , $sortie->getId())
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Participant[] Returns an array of Participant objects
     //  */
