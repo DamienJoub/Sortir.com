@@ -79,9 +79,14 @@ class ParticipantController extends Controller
     }
 
     /**
-     * @Route("/profile/{id}", name = "profile")
+     * @Route("/profile/{id}", name = "profile", requirements={"id"="\d+"})
      */
-    public function afficherProfil(){
-
+    public function afficherProfil($id = -1, EntityManagerInterface $em){
+        if($id >0){
+            $participant = $em->getRepository(Participant::class)->find($id);
+            return $this->render("user/profile.html.twig", ["profile" => $participant]);
+        }else{
+            return $this->redirectToRoute("main_home");
+        }
     }
 }

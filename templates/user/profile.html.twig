@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h2>{{ profile.prenom }} {{ profile.nom }}</h2>
+    <div>téléphone : {{ profile.telephone }}</div>
+    <div>e-mail : {{ profile.mail }}</div>
+    <div>campus : {{ profile.campus.nom }}</div>
+{% endblock %}
