@@ -50,4 +50,17 @@ class SortieController extends Controller {
 
         return $this -> render("sortie/add.html.twig", ["sortieForm" => $form -> createView()]);
     }
+
+    /**
+     * @Route("/sortie/detail/{id}", name ="detail_sortie", requirements={"id"="\d+"})
+     */
+    public function detail($id = -1, EntityManagerInterface $em){
+        if($id > 0){
+            $sortie = $em ->getRepository(Sortie::class) ->find($id);
+            $participants = $em->getRepository(Participant::class) ->findBySortie($sortie);
+            return $this->render("sortie/detail.html.twig", ["sortie" => $sortie, "participants" => $participants]);
+        }else{
+            return $this->redirectToRoute("main_home");
+        }
+    }
 }
