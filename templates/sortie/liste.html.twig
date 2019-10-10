@@ -25,13 +25,13 @@
                     <td>{{sortie.dateCloture | date('d/m/Y H:i')}}</td>
                     <td>{{sortie.participantsP | length}}/{{sortie.nbInscriptionMax}}</td>
                     <td>{{sortie.etat.libelle}}</td>
-                    {% if sortie in isInscrit | keys %}
+                    {% if sortie in isInscrit %}
                         <td>X</td>
                     {% else %}
                         <td> </td>
                     {% endif %}
-                    <td>{{sortie.nom}}</td>
-                    <td>{{sortie.nom}}</td>
+                    <td><u><a href="{{ path("profile", {'id':sortie.ParticipantO.id} ) }}">{{sortie.ParticipantO.nom}}</a></u></td>
+                    <td><u><a href="{{ path("detail_sortie", {'id':sortie.id}) }}">Afficher</a></u></td>
                 </tr>
             {% endfor %}
             </tbody>

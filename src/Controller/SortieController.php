@@ -27,7 +27,7 @@ class SortieController extends Controller {
         foreach ($sorties as $sortie) {
             $listeParticipants = $em -> getRepository(Participant::class) -> findBySortie($sortie);
             if(in_array($this->getUser(), $listeParticipants)) {
-                array_push($isInscrit,$sortie,'Yes');
+                array_push($isInscrit,$sortie);
             }
         }
 
