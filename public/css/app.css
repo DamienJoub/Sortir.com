@@ -40,7 +40,6 @@ a:hover {
     border-radius: 3px;
 }
 
-
 /**
 header
  */
@@ -101,10 +100,7 @@ footer {
     text-align: center;
 }
 
-/**
-list & detail pages
- */
-.ideas-list a {
+.sortie-list a{
     display: block;
     border: 1px solid #D3D3D3;
     padding: 10px 5px;

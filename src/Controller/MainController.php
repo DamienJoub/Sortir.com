@@ -16,7 +16,8 @@ class MainController extends Controller
      */
     public function home()
     {
-        return $this->render("main/home.html.twig");
+        //return $this->render("main/home.html.twig");
+        return $this->redirectToRoute("sortie_liste");
     }
 
     /**
@@ -27,7 +28,7 @@ class MainController extends Controller
     public function main_home(AuthenticationUtils $authenticationUtils): Response
     {
          if ($this->getUser()) {
-             return $this->render('main/home.html.twig');
+             return $this->redirectToRoute("sortie_liste");
          }
 
         // get the login error if there is one

@@ -28,21 +28,21 @@
         <nav>
             <ul>
                 <li><a href="{{ path("home") }}" title="Sortir.com | Accueil">Accueil</a></li>
-                {% if is_granted("ROLE_USER") %}
+
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED")  %}
                     <li><a href="{{ path("monProfil") }}" title="Mon profil">Mon profil</a></li>
-                {% endif %}
-                {% if is_granted("ROLE_ADMIN") %}
-                    <li><a href="{{ path("register") }}" title="Créer compte">Créer un compte</a></li>
-                    <li><a href="{{ path("monProfil") }}" title="Mon profil">Mon profil</a></li>
-                {% endif %}
-            </ul>
-            <ul>
-                {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN")  %}
-                    <li><a href="" disabled>Bonjour {{ app.user.prenom }}!</a></li>
+                    <li><a href="{{ path("sortie_creer") }}" title="Créer sortie">Créer une sortie</a></li>
+                    {#<li>Bonjour {{ app.user.prenom }} !</li>#}
+
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <li><a href="{{ path("register") }}" title="Créer compte">Créer un compte</a></li>
+                        <li><a href="#" title="Ville">Ville</a></li>
+                        <li><a href="#" title="Campus">Campus</a></li>
+                    {% endif %}
+
                     <li><a href="{{ path("logout") }}" title="Deconnexion">D&eacute;connexion</a></li>
                 {% else %}
                     <li><a href="{{ path("login") }}" title="Connexion">Connexion</a></li>
-                    <li><a href="{{ path("register") }}" title="Créer compte">Créer un compte</a></li>
                 {% endif %}
             </ul>
         </nav>

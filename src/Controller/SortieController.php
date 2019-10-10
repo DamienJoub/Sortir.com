@@ -21,7 +21,17 @@ class SortieController extends Controller {
     public function liste(EntityManagerInterface $em) {
 
         $sorties = $em -> getRepository(Sortie::class) -> findAll();
-        return $this -> render("sortie/liste.html.twig", ["sorties" => $sorties]);
+
+        $isInscrit = array();
+
+        foreach ($sorties as $sortie) {
+            $listeParticipants = $em -> getRepository(Participant::class) -> findBySortie($sortie);
+            if(in_array($this->getUser(), $listeParticipants)) {
+                array_push($isInscrit,$sortie,'Yes');
+            }
+        }
+
+        return $this -> render("sortie/liste.html.twig", ["sorties" => $sorties, "isInscrit" => $isInscrit]);
     }
 
     /**
