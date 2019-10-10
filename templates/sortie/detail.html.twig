@@ -6,8 +6,8 @@
         <div>nom de la sortie : {{ sortie.nom }}</div>
         <div>date et heure de la sortie : {{ sortie.dateDebut | date('Y-m-d') }}</div>
         <div>date limite d'inscription : {{ sortie.dateCloture | date('Y-m-d') }}</div>
-        <div>nombre de places : {{ sortie.nbInscriptionMax }}</div>
-        <div>durée : {{ sortie.duree }}</div>
+        <div>nombre de places restantes / total: {{sortie.nbInscriptionMax - sortie.participantsP | length}} / {{ sortie.nbInscriptionMax }}</div>
+        <div>durée : {{ sortie.duree }} minutes</div>
         <div>description et infos : {{ sortie.infosSortie }}</div>
 
         <div>campus : {{ sortie.campus.nom }}</div>
