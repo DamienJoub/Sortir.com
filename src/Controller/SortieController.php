@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
@@ -36,7 +37,15 @@ class SortieController extends Controller {
         $form -> handleRequest($request);
 
         if($form -> isSubmitted()) {
+            $sortie -> setParticipantO($this -> getUser());
+            $sortie -> setCampus($this -> getUser() -> getCampus());
+            $sortie -> setEtat($em -> getRepository(Etat::class) -> findOneByLibelle("Créée"));
 
+            $em -> persist($sortie);
+            $em -> flush();
+
+            $this->addFlash('success', 'La sortie a bien été ajoutée!');
+            return $this->redirectToRoute('sortie_liste');
         }
 
         return $this -> render("sortie/add.html.twig", ["sortieForm" => $form -> createView()]);

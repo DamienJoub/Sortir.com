@@ -42,7 +42,7 @@ class SortieType extends AbstractType {
                 "attr" => ["class" => "js-datepicker"]
                 ])
             -> add('nb_inscription_max', IntegerType::class, ["label" => "Nombre de places"])
-            -> add('infos_sortie', TextareaType::class, ["label" => "Description et infos"])
+            -> add('infos_sortie', TextareaType::class, ["label" => "Description et infos", "required" => false])
             -> add('campus', TextType::class, ["label" => "Campus", "data" => $participant -> getCampus() -> getNom(), "attr" => ["readonly" => true]])
             -> add("lieu", EntityType::class, [
                 "class" => Lieu::class,
@@ -54,7 +54,6 @@ class SortieType extends AbstractType {
                     return $er -> createQueryBuilder('c') -> orderBy('c.nom', 'ASC');
                 }
             ])
-            -> add("nouveauLieu", CheckboxType::class, ["mapped" => false])
             -> add("Valider", SubmitType::class)
         ;
     }
