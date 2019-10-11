@@ -40,9 +40,8 @@ class SortieController extends Controller {
     public function create(EntityManagerInterface $em, Request $request) {
         $sortie = new Sortie();
 
-        $participant = $em -> getRepository(Participant::class) -> find(1);
 
-        $form = $this -> createForm(SortieType::class, $sortie, ["participant" => $participant]);
+        $form = $this -> createForm(SortieType::class, $sortie, ["campus" => $this -> getUser() -> getCampus()]);
 
         $form -> handleRequest($request);
 

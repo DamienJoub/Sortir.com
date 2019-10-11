@@ -27,6 +27,25 @@ form > div:first-child {
     margin: auto;
 }
 
+#login .form-button {
+    width: 47%;
+    justify-content: space-around;
+}
+#login .form-button div {
+    display: flex;
+    align-items: center;
+}
+
+#login .form-button div input {
+    margin-bottom: 0;
+    margin-right: 5px;
+}
+
+.login {
+    width: 47%;
+    margin: auto;
+}
+
 @media screen and (max-width: 750px) {
     form > div:first-child {
         display: block;
@@ -38,5 +57,13 @@ form > div:first-child {
     }
     .form-button {
         width: 50%;
+    }
+
+    #login .form-button {
+        width: unset;
+    }
+
+    .login {
+        width: 94%;
     }
 }

@@ -3,28 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SortieRepository")
  */
-class Sortie
-{
-    /**
-     * @return mixed
-     */
-    public function getLieu()
-    {
-        return $this->lieu;
-    }
-
-    /**
-     * @param mixed $lieu
-     */
-    public function setLieu($lieu)
-    {
-        $this->lieu = $lieu;
-    }
-    /**
+class Sortie {
+        /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -33,26 +18,31 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank(message="Veuillez remplir un nom !")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Veuillez remplir une date de début !")
      */
     private $date_debut;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\NotBlank(message="Veuillez remplir une durée !")
      */
     private $duree;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Veuillez remplir une date de cloture !")
      */
     private $date_cloture;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Veuillez remplir un nombre de participant maximum !")
      */
     private $nb_inscription_max;
 
@@ -64,6 +54,7 @@ class Sortie
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Campus", inversedBy="sorties")
      * @ORM\JoinColumn(name="campus", referencedColumnName="id")
+     * @Assert\NotBlank(message="Veuillez indiquer un campus !")
      */
     private $campus;
 
@@ -88,8 +79,23 @@ class Sortie
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Lieu", inversedBy="sorties")
      * @ORM\JoinColumn("lieu", referencedColumnName="id")
+     * @Assert\NotBlank(message="Veuillez préciser un lieu !")
      */
     private $lieu;
+
+    /**
+     * @return mixed
+     */
+    public function getLieu() {
+        return $this->lieu;
+    }
+
+    /**
+     * @param mixed $lieu
+     */
+    public function setLieu($lieu) {
+        $this->lieu = $lieu;
+    }
 
     /**
      * @return mixed

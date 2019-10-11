@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SortieType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $participant = $options["participant"];
+        $campus = $options["campus"];
         $builder
             -> add('nom', TextType::class, ["label" => "Nom"])
             -> add('date_debut', DateTimeType::class, [
@@ -38,7 +38,7 @@ class SortieType extends AbstractType {
                 ])
             -> add('nb_inscription_max', IntegerType::class, ["label" => "Nombre de places"])
             -> add('infos_sortie', TextareaType::class, ["label" => "Description et infos", "required" => false])
-            -> add('campus', TextType::class, ["label" => "Campus", "data" => $participant -> getCampus() -> getNom(), "attr" => ["readonly" => true]])
+            -> add('campus', TextType::class, ["label" => "Campus", "data" => $campus -> getNom(), "attr" => ["readonly" => true]])
             -> add("lieu", EntityType::class, [
                 "class" => Lieu::class,
                 "group_by" => "ville.nom",
@@ -53,7 +53,7 @@ class SortieType extends AbstractType {
     }
 
     public function configureOptions(OptionsResolver $resolver) {
-        $resolver -> setRequired("participant");
+        $resolver -> setRequired("campus");
         $resolver -> setDefaults([
             'data_class' => Sortie::class,
         ]);
