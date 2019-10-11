@@ -8,6 +8,7 @@ use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,9 +68,33 @@ class SortieController extends Controller {
         if($id > 0){
             $sortie = $em ->getRepository(Sortie::class) ->find($id);
             $participants = $em->getRepository(Participant::class) ->findBySortie($sortie);
-            return $this->render("sortie/detail.html.twig", ["sortie" => $sortie, "participants" => $participants]);
+            return $this->render("sortie/detail.html.twig", ["sortie" => $sortie, "participants" => $participants, "id" => $id]);
         }else{
             return $this->redirectToRoute("main_home");
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param EntityManagerInterface $em
+     * @Route("/sortie/inscription/{id}" , name ="inscription_sortie", requirements={"id"="\d+"})
+     */
+    public function inscription($id = -1, EntityManagerInterface $em, Request $request){
+        if($id > 0) {
+            $sortie = new Sortie();
+            $sortie = $em->getRepository(Sortie::class)->find($id);
+            if ($sortie->getDateCloture() > new DateTime("now")) {
+                $participants = $sortie->getParticipantsP()->toArray();
+                if(!in_array($participants, [$this->getUser()])){
+                    array_push($participants, $this->getUser());
+                }
+                $sortie->setParticipantsP($participants);
+                $em->persist($sortie);
+                $em->flush();
+                return $this->redirect($request->headers->get('referer'));
+            } else {
+                return $this->redirectToRoute("main_home");
+            }
         }
     }
 }
