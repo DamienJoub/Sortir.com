@@ -137,9 +137,9 @@ class SortieController extends Controller {
      * @param int $id
      * @param EntityManagerInterface $em
      * @param Request $request
-     * @Route("/deinscription/{id}", name = "deinscription", requirements={"id"="\d+"})
+     * @Route("/desinscription/{id}", name = "desinscription", requirements={"id"="\d+"})
      */
-    public function deinscription($id = -1, EntityManagerInterface $em, Request $request){
+    public function desinscription($id = -1, EntityManagerInterface $em, Request $request){
         if($id > 0){
             $sortie = $em->getRepository(Sortie::class)->find($id);
             $participants = $sortie->getParticipantsP()->toArray();
