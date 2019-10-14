@@ -10,6 +10,7 @@ use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use DateTime;
+use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -31,6 +32,14 @@ class SortieController extends Controller {
      * @return Response
      */
     public function filtre(EntityManagerInterface $em, Request $request) {
+
+        $sorties = $em -> getRepository(Sortie::class) -> findAll();
+        $sortiesFiltrees = array();
+        $filtreVille = $request->request->get('campus');
+
+        foreach ($sorties as $sortie) {
+
+        }
 
         /*$data = $request->request->get('search');
 
@@ -57,6 +66,10 @@ class SortieController extends Controller {
 
         $isInscrit = array();
 
+        $dateDuJour = new DateTime();
+        $dateDuJour1 = new DateTime();
+        $dateDuJour1 = $dateDuJour1->modify('+1 day');
+
         foreach ($sorties as $sortie) {
             $listeParticipants = $em -> getRepository(Participant::class) -> findBySortie($sortie);
             if(in_array($this->getUser(), $listeParticipants)) {
@@ -64,7 +77,9 @@ class SortieController extends Controller {
             }
         }
 
-        return $this -> render("sortie/liste.html.twig", ["sorties" => $sorties, "isInscrit" => $isInscrit, "campus" => $campus]);
+        return $this -> render("sortie/liste.html.twig",
+            ["sorties" => $sorties, "isInscrit" => $isInscrit, "campus" => $campus,
+                "dateDuJour" => $dateDuJour, "dateDuJour1" => $dateDuJour1]);
     }
 
     /**
