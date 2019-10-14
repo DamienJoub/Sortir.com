@@ -31,7 +31,7 @@
 
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED")  %}
                     <li><a href="{{ path("monProfil") }}" title="Mon profil">Mon profil</a></li>
-                    <li><a href="{{ path("sortie_creer") }}" title="Créer sortie">Créer une sortie</a></li>
+                    {#<li><a href="{{ path("sortie_creer") }}" title="Créer sortie">Créer une sortie</a></li>#}
                     {#<li>Bonjour {{ app.user.prenom }} !</li>#}
 
                     {% if is_granted("ROLE_ADMIN") %}

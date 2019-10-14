@@ -23,7 +23,7 @@
         <ul>
             <div>Liste des participants inscrits</div>
             {% for participant in participants %}
-                <li><a href="{{ path("profile", {'id':participant.id} ) }}">{{ participant.prenom }}</a></li>
+                <li><a href="{{ path("profil", {'id':participant.id} ) }}">{{ participant.prenom }}</a></li>
             {% endfor %}
         </ul>
     </div>

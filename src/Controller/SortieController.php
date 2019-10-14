@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
@@ -11,17 +12,48 @@ use App\Form\SortieType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class SortieController
+ * @package App\Controller
+ * @Route("/sortie", name="sortie_")
+ */
 class SortieController extends Controller {
 
     /**
-     * @Route("/sortie/list", name="sortie_liste")
+     * @Route("/filtre", name="filtre")
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return Response
+     */
+    public function filtre(EntityManagerInterface $em, Request $request) {
+
+        /*$data = $request->request->get('search');
+
+        $query = $em->createQuery(
+            'SELECT * FROM sortie:Suplier s
+                WHERE s.nom LIKE \'%:data%\'')
+            ->setParameter('data',$data);
+
+        $res = $query->getResult();
+
+        return $this->render('sortie/liste.html.twig', array(
+            'res' => $res));*/
+    }
+
+    /**
+     * @Route("/liste", name="liste")
+     * @param EntityManagerInterface $em
+     * @return Response
      */
     public function liste(EntityManagerInterface $em) {
 
         $sorties = $em -> getRepository(Sortie::class) -> findAll();
+        $campus = $em -> getRepository(Campus::class) -> findAll();
 
         $isInscrit = array();
 
@@ -32,11 +64,14 @@ class SortieController extends Controller {
             }
         }
 
-        return $this -> render("sortie/liste.html.twig", ["sorties" => $sorties, "isInscrit" => $isInscrit]);
+        return $this -> render("sortie/liste.html.twig", ["sorties" => $sorties, "isInscrit" => $isInscrit, "campus" => $campus]);
     }
 
     /**
-     * @Route("/sortie/creer", name="sortie_creer")
+     * @Route("/creer", name="creer")
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
     public function create(EntityManagerInterface $em, Request $request) {
         $sortie = new Sortie();
@@ -62,7 +97,10 @@ class SortieController extends Controller {
     }
 
     /**
-     * @Route("/sortie/detail/{id}", name ="detail_sortie", requirements={"id"="\d+"})
+     * @Route("/detail/{id}", name ="detail", requirements={"id"="\d+"})
+     * @param int $id
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse|Response
      */
     public function detail($id = -1, EntityManagerInterface $em){
         if($id > 0){

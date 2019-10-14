@@ -1,9 +1,60 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <h3>Filtrer les sorties</h3>
 
-    <div >
+    <div class="jumbotron jumbotron-fluid bg-transparent">
+        <div class="container">
+            <h1 class="display-7">Filtrer les sorties</h1>
+
+            <form method="post" action="{{ path('sortie_filtre') }}">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="listeCampus">Site : </label>
+                        <select class="browser-default custom-select" id="listeCampus">
+                            {% for unCampus in campus %}
+                                <option value="{{ unCampus.id }}">{{ unCampus.nom }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <label for="searchInput">Le nom de la sortie contient : </label>
+                        <input id="searchInput" class="form-control" type="text" placeholder="Rechercher" name ="search">
+
+                        <div>
+                            <label for="dateDebut">Entre </label>
+                            <input id="dateDebut" type="text" class="js-datepicker form-control">
+
+                            <label for="dateFin"> Et </label>
+                            <input id="dateFin" type="text" class="js-datepicker form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="flex-row">
+                            <input type="checkbox" id="organisateur" name="organisateur" checked/>
+                            <label for="organisateur" class="form-check-inline">Sorties dont je suis l'oganisateur/trice</label>
+                        </div>
+                        <div class="flex-row">
+                            <input type="checkbox" id="inscrit" name="inscrit" checked/>
+                            <label for="inscrit" class="form-check-inline">Sorties auxquelles je suis inscrit/e</label>
+                        </div>
+                        <div class="flex-row">
+                            <input type="checkbox" id="nonInscrit" name="nonInscrit" checked/>
+                            <label for="nonInscrit" class="form-check-inline">Sorties auxquelles je ne suis pas inscrit/e</label>
+                        </div>
+                        <div class="flex-row">
+                            <input type="checkbox" id="passee" name="passee" checked/>
+                            <label for="passee" class="form-check-inline">Sorties pass&eacute;es</label>
+                        </div>
+                        <div class="flex-row">&nbsp;</div>
+                        <div class="flex-row">&nbsp;</div>
+                        <div class="flex-row">&nbsp;</div>
+                        <button type="submit" class="btn btn-outline-primary btn-lg">Rechercher</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
         <table class="table table-bordered table-condensed table-body-center" >
             <thead>
             <tr>
@@ -30,11 +81,32 @@
                     {% else %}
                         <td> </td>
                     {% endif %}
-                    <td><u><a href="{{ path("profile", {'id':sortie.ParticipantO.id} ) }}">{{sortie.ParticipantO.nom}}</a></u></td>
-                    <td><u><a href="{{ path("detail_sortie", {'id':sortie.id}) }}">Afficher</a></u></td>
+                    <td><u><a href="{{ path("profil", {'id':sortie.ParticipantO.id} ) }}">{{sortie.ParticipantO.nom}}</a></u></td>
+                    <td>
+                        <u><a href="{{ path("sortie_detail", {'id':sortie.id}) }}">Afficher</a></u>
+                        {% if  app.user in sortie.participantsP %}
+                            <u><a href="{{ path("", {'id':sortie.id}) }}"> - Se d&eacute;sister</a></u>
+                        {% endif %}
+                        {% if app.user not in sortie.participantsP %}
+                            <u><a href="{{ path("sortie_inscription_sortie", {'id':sortie.id}) }}"> - S'inscrire</a></u>
+                        {% endif %}
+                        {% if app.user in sortie.participantO and sortie.etat.equals("Ouverte") %}
+                            <u><a href="{{ path("", {'id':sortie.id}) }}">Modifier</a></u>
+                        {% endif %}
+                        {% if app.user in sortie.participantO %}
+                            <u><a href="{{ path("", {'id':sortie.id}) }}"> - Publier</a></u>
+                        {% endif %}
+                        {% if app.user in sortie.participantO %}
+                            <u><a href="{{ path("", {'id':sortie.id}) }}"> - Annuler</a></u>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+
+        {% if is_granted("ROLE_ADMIN") %}
+            <button class="btn btn-primary" href="{{ path("sortie_creer") }}">Cr&eacute;er une sortie</button>
+        {% endif %}
     </div>
 {% endblock %}

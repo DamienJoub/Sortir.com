@@ -79,7 +79,7 @@ class ParticipantController extends Controller
     }
 
     /**
-     * @Route("/profile/{id}", name = "profile", requirements={"id"="\d+"})
+     * @Route("/profil/{id}", name = "profil", requirements={"id"="\d+"})
      */
     public function afficherProfil($id = -1, EntityManagerInterface $em){
         if($id >0){
