@@ -35,10 +35,22 @@ class SortieController extends Controller {
 
         $sorties = $em -> getRepository(Sortie::class) -> findAll();
         $sortiesFiltrees = array();
-        $filtreVille = $request->request->get('campus');
+        $filtreCampus = $request->request->get('campus');
+        $filtreSearch = $request->request->get('search');
+        $filtreDateDebut = $request->request->get('dateDebut');
+        $filtreDateFin = $request->request->get('dateFin');
+        $filtreOrganisateur = $request->request->get('organisateur');
+        $filtreInscrit = $request->request->get('inscrit');
+        $filtreNonInscrit = $request->request->get('nonInscrit');
+        $filtrePassee = $request->request->get('passee');
 
         foreach ($sorties as $sortie) {
-
+            if($sortie->getCampus() != $filtreCampus) {
+                // soit ajouter puis enlever les duplicate soit enlever direct
+            }
+            /*if() {
+                array_push($sortiesFiltrees, $sortie);
+            }*/
         }
 
         /*$data = $request->request->get('search');
