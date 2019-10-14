@@ -32,4 +32,8 @@
     {% elseif app.user not in  sortie.participantsP and sortie.dateCloture > "now"|date("Y/m/d") and sortie.etat.libelle == "Ouverte"%}
         <a href="{{ path("sortie_inscription", {'id' : id}) }}">S'inscrire</a>
     {% endif %}
+
+    {% if app.user == sortie.participantO and sortie.dateDebut > "now"|date("Y/m/d") and sortie.etat.libelle == "Créée" %}
+        <a href="{{ path("sortie_publication", {'id' : id}) }}">Publier la sortie</a>
+    {% endif %}
 {% endblock %}

@@ -152,4 +152,24 @@ class SortieController extends Controller {
         }
         return $this->redirect($request->headers->get('referer'));
     }
+
+    /**
+     * @param int $id
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @Route("/publication/{id}" , name  = "publication" ,  requirements={"id"="\d+"})
+     */
+    public function publication($id = -1, EntityManagerInterface $em, Request $request){
+        if ($id > 0){
+            $sortie = $em->getRepository(Sortie::class)->find($id);
+            if($sortie->getParticipantO() == $this->getUser() && $sortie->getEtat()->getLibelle() == 'Créée' && $sortie->getDateDebut() > new DateTime("now")){
+                var_dump('gg');
+                $etat = $em->getRepository(Etat::class)->find(2);
+                $sortie->setEtat($etat);
+                $em->persist($sortie);
+                $em->flush();
+            }
+        }
+        return $this->redirect($request->headers->get('referer'));
+    }
 }
