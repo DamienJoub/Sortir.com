@@ -83,7 +83,7 @@ class SortieController extends Controller {
         if($id > 0) {
             $sortie = new Sortie();
             $sortie = $em->getRepository(Sortie::class)->find($id);
-            if ($sortie->getDateCloture() > new DateTime("now")) {
+            if ($sortie->getDateCloture() > new DateTime("now")  && $sortie->getEtat()->getLibelle() == 'Ouverte' ) {
                 $participants = $sortie->getParticipantsP()->toArray();
                 if(!in_array($participants, [$this->getUser()])){
                     array_push($participants, $this->getUser());

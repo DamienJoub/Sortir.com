@@ -27,6 +27,9 @@
             {% endfor %}
         </ul>
     </div>
-
-    <a href="{{ path("inscription_sortie", {'id' : id}) }}">S'inscrir</a>
+    {% if app.user in sortie.participantsP %}
+        Se désister
+    {% else %}
+        <a href="{{ path("inscription_sortie", {'id' : id}) }}">S'inscrire</a>
+    {% endif %}
 {% endblock %}
