@@ -27,9 +27,9 @@
             {% endfor %}
         </ul>
     </div>
-    {% if app.user in sortie.participantsP %}
-        Se désister
-    {% else %}
-        <a href="{{ path("inscription_sortie", {'id' : id}) }}">S'inscrire</a>
+    {% if app.user in sortie.participantsP  and sortie.dateDebut > "now"|date("Y/m/d")%}
+        <a href="{{ path("sortie_deinscription", {'id' : id}) }}">Se déinscrire</a>
+    {% elseif app.user not in  sortie.participantsP and sortie.dateCloture > "now"|date("Y/m/d") and sortie.etat.libelle == "Ouverte"%}
+        <a href="{{ path("sortie_inscription", {'id' : id}) }}">S'inscrire</a>
     {% endif %}
 {% endblock %}

@@ -115,24 +115,41 @@ class SortieController extends Controller {
     /**
      * @param int $id
      * @param EntityManagerInterface $em
-     * @Route("/sortie/inscription/{id}" , name ="inscription_sortie", requirements={"id"="\d+"})
+     * @Route("/inscription/{id}" , name ="inscription", requirements={"id"="\d+"})
      */
     public function inscription($id = -1, EntityManagerInterface $em, Request $request){
         if($id > 0) {
-            $sortie = new Sortie();
             $sortie = $em->getRepository(Sortie::class)->find($id);
-            if ($sortie->getDateCloture() > new DateTime("now")  && $sortie->getEtat()->getLibelle() == 'Ouverte' ) {
+            if ($sortie->getDateCloture() > new DateTime("now") && $sortie->getEtat()->getLibelle() == 'Ouverte') {
                 $participants = $sortie->getParticipantsP()->toArray();
-                if(!in_array($participants, [$this->getUser()])){
+                if (!in_array($this->getUser() , $participants)) {
                     array_push($participants, $this->getUser());
                 }
                 $sortie->setParticipantsP($participants);
                 $em->persist($sortie);
                 $em->flush();
-                return $this->redirect($request->headers->get('referer'));
-            } else {
-                return $this->redirectToRoute("main_home");
             }
         }
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
+     * @param int $id
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @Route("/deinscription/{id}", name = "deinscription", requirements={"id"="\d+"})
+     */
+    public function deinscription($id = -1, EntityManagerInterface $em, Request $request){
+        if($id > 0){
+            $sortie = $em->getRepository(Sortie::class)->find($id);
+            $participants = $sortie->getParticipantsP()->toArray();
+            if(in_array($this->getUser() , $participants) && $sortie->getDateDebut() > new DateTime("now")){
+                unset($participants[array_search($this->getUser(), $participants)]);
+            }
+            $sortie->setParticipantsP($participants);
+            $em->persist($sortie);
+            $em->flush();
+        }
+        return $this->redirect($request->headers->get('referer'));
     }
 }
