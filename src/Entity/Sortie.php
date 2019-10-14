@@ -25,6 +25,8 @@ class Sortie {
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="Veuillez remplir une date de début !")
+     * @Assert\Range(min="+2 hours", minMessage="La date de cloture des inscriptions doit être dans minimum 2 heures !")
+     *
      */
     private $date_debut;
 
@@ -37,6 +39,8 @@ class Sortie {
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="Veuillez remplir une date de cloture !")
+     * @Assert\Range(min="+1 hour", minMessage="La date de cloture des inscriptions doit être dans minimum 1 heure !")
+     * @Assert\LessThan(propertyPath="date_debut", message="La date de cloture des inscriptions doit être inférieur à la date de début de l'évènement !")
      */
     private $date_cloture;
 

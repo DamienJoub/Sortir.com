@@ -96,7 +96,7 @@ class SortieController extends Controller {
 
         $form -> handleRequest($request);
 
-        if($form -> isSubmitted()) {
+        if($form -> isSubmitted() && $form -> isValid()) {
             $sortie -> setParticipantO($this -> getUser());
             $sortie -> setCampus($this -> getUser() -> getCampus());
             $sortie -> setEtat($em -> getRepository(Etat::class) -> findOneByLibelle("Créée"));

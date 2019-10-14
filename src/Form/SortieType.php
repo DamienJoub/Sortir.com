@@ -16,12 +16,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SortieType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        $date = new \DateTime();
         $campus = $options["campus"];
         $builder
             -> add('nom', TextType::class, ["label" => "Nom"])
             -> add('date_debut', DateTimeType::class, [
                 "label" => "Date et heure de début",
-                "data" => new \DateTime(),
+                "data" => $date -> add(new \DateInterval("PT2H")),
                 "format" => "dd/MM/yyyy HH:mm",
                 "html5" => false,
                 "widget" => "single_text",
