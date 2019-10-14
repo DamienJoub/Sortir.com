@@ -79,42 +79,43 @@
             </thead>
             <tbody>
             {% for sortie in sorties %}
-                <tr>
-                    <td>{{sortie.nom}}</td>
-                    <td>{{sortie.dateDebut | date('d/m/Y H:i')}}</td>
-                    <td>{{sortie.dateCloture | date('d/m/Y H:i')}}</td>
-                    <td>{{sortie.participantsP | length}}/{{sortie.nbInscriptionMax}}</td>
-                    <td>{{sortie.etat.libelle}}</td>
-                    {% if sortie in isInscrit %}
-                        <td>X</td>
-                    {% else %}
-                        <td> </td>
-                    {% endif %}
-                    <td><u><a href="{{ path("profil", {'id':sortie.ParticipantO.id} ) }}">{{sortie.ParticipantO.nom}}</a></u></td>
-                    <td>
-                        <u><a href="{{ path("sortie_detail", {'id':sortie.id}) }}">Afficher</a></u>
-                        {% if  app.user in sortie.participantsP %}
-                            {#<u><a href="{{ path("", {'id':sortie.id}) }}"> - Se d&eacute;sister</a></u>#}
-                            <u>- Se d&eacute;sister</u>
+                {% if sortie.dateDebut|date_modify("+1 month") > "now"|date("Y/m/d")  and (
+                    sortie.etat.libelle != "Créée" or(
+                    sortie.participantO == app.user and sortie.etat.libelle == "Créée"))%}
+                    <tr>
+                        <td>{{sortie.nom}}</td>
+                        <td>{{sortie.dateDebut | date('d/m/Y H:i')}}</td>
+                        <td>{{sortie.dateCloture | date('d/m/Y H:i')}}</td>
+                        <td>{{sortie.participantsP | length}}/{{sortie.nbInscriptionMax}}</td>
+                        <td>{{sortie.etat.libelle}}</td>
+                        {% if sortie in isInscrit %}
+                            <td>X</td>
+                        {% else %}
+                            <td> </td>
                         {% endif %}
-                        {% if app.user not in sortie.participantsP %}
-                            {#<u><a href="{{ path("sortie_inscription_sortie", {'id':sortie.id}) }}"> - S'inscrire</a></u>#}
-                            <u>- S'inscrire</u>
-                        {% endif %}
-                        {% if app.user in sortie.participantO and sortie.etat.equals("Ouverte") %}
-                            {#<u><a href="{{ path("", {'id':sortie.id}) }}">Modifier</a></u>#}
-                            <u>- Modifier</u>
-                        {% endif %}
-                        {% if app.user in sortie.participantO and sortie.etat.equals("Créée") %}
-                            {#<u><a href="{{ path("", {'id':sortie.id}) }}"> - Publier</a></u>#}
-                            <u>- Publier</u>
-                        {% endif %}
-                        {% if app.user in sortie.participantO and sortie.etat.equals("Ouverte") %}
-                            {#<u><a href="{{ path("", {'id':sortie.id}) }}"> - Annuler</a></u>#}
-                            <u>- Annuler</u>
-                        {% endif %}
-                    </td>
-                </tr>
+                        <td><u><a href="{{ path("profil", {'id':sortie.ParticipantO.id} ) }}">{{sortie.ParticipantO.nom}}</a></u></td>
+                        <td>
+                            <u><a href="{{ path("sortie_detail", {'id':sortie.id}) }}">Afficher</a></u>
+                            {% if  app.user in sortie.participantsP and sortie.etat.libelle == "Ouverte"%}
+                                <u><a href="{{ path("sortie_desinscription", {'id':sortie.id}) }}"> - Se d&eacute;sister</a></u>
+                            {% endif %}
+                            {% if app.user not in sortie.participantsP and sortie.etat.libelle == "Ouverte"%}
+                                <u><a href="{{ path("sortie_inscription", {'id':sortie.id}) }}"> - S'inscrire</a></u>
+                            {% endif %}
+                            {% if app.user in sortie.participantO and sortie.etat.libelle == "Ouverte" %}
+                                {#<u><a href="{{ path("", {'id':sortie.id}) }}">Modifier</a></u>#}
+                                <u>- Modifier</u>
+                            {% endif %}
+                            {% if app.user == sortie.participantO and sortie.etat.libelle == "Créée" %}
+                                <u><a href="{{ path("sortie_publication", {'id':sortie.id}) }}"> - Publier</a></u>
+                            {% endif %}
+                            {% if app.user in sortie.participantO and sortie.etat.libelle == "Ouverte" %}
+                                {#<u><a href="{{ path("", {'id':sortie.id}) }}"> - Annuler</a></u>#}
+                                <u>- Annuler</u>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>
