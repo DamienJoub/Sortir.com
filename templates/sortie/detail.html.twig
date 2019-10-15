@@ -71,6 +71,7 @@
     </div>
 
     <div style="display: flex; justify-content: space-between; margin-top: 10px">
+        {% if((participants | length) > 0) %}
         <div class="sortie-participant">
             <label> Liste des participants inscrits :  </label>
             <ul>
@@ -79,6 +80,9 @@
                 {% endfor %}
             </ul>
         </div>
+            {% else %}
+            <p></p>
+        {% endif %}
         <div class="btn-command">
             {% if app.user in sortie.participantsP  and sortie.dateDebut > "now"|date("Y/m/d")%}
                 <a href="{{ path("sortie_desinscription", {'id' : id}) }}"><button class="btn btn-secondary">Se désinscrire</button></a>

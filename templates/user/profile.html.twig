@@ -1,9 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <h2>{{ profile.prenom }} {{ profile.nom }}</h2>
-    <div>téléphone : {{ profile.telephone }}</div>
-    <div>e-mail : {{ profile.mail }}</div>
-    <div>campus : {{ profile.campus.nom }}</div>
-    <input class="btn btn-primary" type="button" value="Retour" onclick="history.back()">
+    <label style="display: flex; justify-content: center; font-size: 2rem">{{ profile.prenom }} {{ profile.nom }}</label>
+    <div class="profil">
+        <div class="row">
+            <label>Téléphone :</label>
+            <p>{{ profile.telephone }}</p>
+        </div>
+        <div class="row">
+            <label>Email :</label>
+            <p>{{ profile.mail }}</p>
+        </div>
+            <div class="row"><label>Campus :</label>
+                <p>{{ profile.campus.nom }}</p>
+            </div>
+        <input class="btn btn-primary" type="button" value="Retour" onclick="history.back()">
+    </div>
 {% endblock %}

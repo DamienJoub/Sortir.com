@@ -246,3 +246,18 @@ form ul > li {
 .pagination li.active:hover a{
     cursor: not-allowed;
 }
+
+.profil {
+    width: 30%;
+    margin: auto;
+}
+
+.profil .row {
+    justify-content: space-between;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.profil .row label {
+    font-weight: bold;
+}

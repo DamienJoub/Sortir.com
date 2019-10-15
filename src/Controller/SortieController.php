@@ -151,7 +151,7 @@ class SortieController extends Controller {
             $em -> flush();
 
             $this->addFlash('success', 'La sortie a bien été ajoutée!');
-            return $this->redirectToRoute('sortie_liste');
+            return $this->redirectToRoute('sortie_detail', array("id" => $sortie -> getId()));
         }
 
         return $this -> render("sortie/add.html.twig", ["sortieForm" => $form -> createView()]);
