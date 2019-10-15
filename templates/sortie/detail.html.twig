@@ -13,7 +13,11 @@
         </div>
         <div class="row">
             <label>Nombre de places restantes / Total :</label>
-            <p>{{sortie.nbInscriptionMax - sortie.participantsP | length}} / {{ sortie.nbInscriptionMax }}</p>
+            {% if (sortie.etat.libelle == "Annulée")%}
+                <p>-/-</p>
+            {% else %}
+                <p>{{sortie.nbInscriptionMax - sortie.participantsP | length}} / {{ sortie.nbInscriptionMax }}</p>
+            {% endif %}
         </div>
         <div class="row">
             <label>Durée :</label>
