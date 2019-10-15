@@ -1,0 +1,59 @@
+#detail {
+    width: 20%;
+    margin: auto;
+}
+
+.detail-sortie {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.detail-sortie .row {
+    width: 48%;
+    justify-content: space-between;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.detail-sortie .row label {
+    font-weight: bold;
+}
+
+.sortie-participant {
+    width: 35%;
+}
+
+.sortie-participant ul {
+    padding-left: 0;
+    border: 1px solid #D3D3D3;
+    max-height: 108px;
+    overflow: auto;
+}
+
+.sortie-participant li {
+    padding: 5px;
+    list-style: none;
+}
+
+.sortie-participant a:nth-child(odd) li {
+    background-color: #F3F3F3;
+}
+
+.btn-command {
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media screen and (max-width: 750px) {
+    #detail {
+        width: 51%;
+    }
+    .detail-sortie .row {
+        width: 100%;
+    }
+    .sortie-participant {
+        width: 100%;
+    }
+}

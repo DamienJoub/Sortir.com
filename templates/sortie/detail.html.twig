@@ -1,39 +1,88 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <h1>{{  sortie.nom }}</h1>
+    <h1 id="detail">{{ sortie.nom }}</h1>
     <div class="detail-sortie">
-        <div>nom de la sortie : {{ sortie.nom }}</div>
-        <div>date et heure de la sortie : {{ sortie.dateDebut | date('Y-m-d') }}</div>
-        <div>date limite d'inscription : {{ sortie.dateCloture | date('Y-m-d') }}</div>
-        <div>nombre de places restantes / total: {{sortie.nbInscriptionMax - sortie.participantsP | length}} / {{ sortie.nbInscriptionMax }}</div>
-        <div>durée : {{ sortie.duree }} minutes</div>
-        <div>description et infos : {{ sortie.infosSortie }}</div>
+        <div class="row">
+            <label>Date et heure de la sortie :</label>
+            <p>{{ sortie.dateDebut | date('d/m/Y H:i') }}</p>
+        </div>
+        <div class="row">
+            <label>Date limite d'inscription :</label>
+            <p>{{ sortie.dateCloture | date('d/m/Y H:i') }}</p>
+        </div>
+        <div class="row">
+            <label>Nombre de places restantes / Total :</label>
+            <p>{{sortie.nbInscriptionMax - sortie.participantsP | length}} / {{ sortie.nbInscriptionMax }}</p>
+        </div>
+        <div class="row">
+            <label>Durée :</label>
+            <p>{{ sortie.duree }} minutes</p>
+        </div>
+        <div class="row">
+            <label>Description et infos :</label>
+            {% if(sortie.infosSortie) %}
+                <p>{{ sortie.infosSortie }}</p>
+            {% else %}
+                <p><i>Non renseignés</i></p>
+            {% endif %}
+        </div>
+        <div class="row">
+            <label>Campus :</label>
+            <p>{{ sortie.campus.nom }}</p>
+        </div>
+        <div class="row">
+            <label>Lieu :</label>
+            <p>{{ sortie.lieu.nom }}</p>
+        </div>
+        <div class="row">
+            <label>Rue :</label>
+            {% if(sortie.lieu.rue) %}
+                <p>{{ sortie.lieu.rue }}</p>
+            {% else %}
+                <p><i>Non renseignée</i></p>
+            {% endif %}
+        </div>
 
-        <div>campus : {{ sortie.campus.nom }}</div>
-        <div>lieu : {{ sortie.lieu.nom }}</div>
-        <div>Rue : {{ sortie.lieu.rue }}</div>
-        <div>Code postal : {{ sortie.lieu.ville.codePostal }}</div>
-        <div>latitude : {{ sortie.lieu.latitude }}</div>
-        <div>longitude : {{ sortie.lieu.longitude }}</div>
-
+        <div class="row">
+            <label>Code postal et ville :</label>
+            <p>{{ sortie.lieu.ville.codePostal }} - {{ sortie.lieu.ville.nom }}</p>
+        </div>
+        <div class="row">
+            <label>Latitude :</label>
+            {% if(sortie.lieu.latitude) %}
+                <p>{{ sortie.lieu.latitude }}</p>
+            {% else %}
+                <p><i>Non renseignée</i></p>
+            {% endif %}
+        </div>
+        <div class="row">
+            <label>Longitude :</label>
+            {% if(sortie.lieu.longitude) %}
+                <p>{{ sortie.lieu.longitude }}</p>
+            {% else %}
+                <p><i>Non renseignée</i></p>
+            {% endif %}
+        </div>
     </div>
 
-    <div class="sortie-list">
+    <div class="sortie-participant">
+        <div>Liste des participants inscrits :</div>
         <ul>
-            <div>Liste des participants inscrits</div>
             {% for participant in participants %}
-                <li><a href="{{ path("profil", {'id':participant.id} ) }}">{{ participant.prenom }}</a></li>
+                <a href="{{ path("profil", {'id':participant.id} ) }}"><li>{{ participant.prenom }} {{ participant.nom | upper }}</li></a>
             {% endfor %}
         </ul>
     </div>
+    <div class="btn-command">
     {% if app.user in sortie.participantsP  and sortie.dateDebut > "now"|date("Y/m/d")%}
-        <a href="{{ path("sortie_desinscription", {'id' : id}) }}">Se désinscrire</a>
+        <a href="{{ path("sortie_desinscription", {'id' : id}) }}"><button class="btn btn-secondary">Se désinscrire</button></a>
     {% elseif app.user not in  sortie.participantsP and sortie.dateCloture > "now"|date("Y/m/d") and sortie.etat.libelle == "Ouverte"%}
-        <a href="{{ path("sortie_inscription", {'id' : id}) }}">S'inscrire</a>
+        <a href="{{ path("sortie_inscription", {'id' : id}) }}"><button class="btn btn-primary">S'inscrire</button></a>
     {% endif %}
 
     {% if app.user == sortie.participantO and sortie.dateDebut > "now"|date("Y/m/d") and sortie.etat.libelle == "Créée" %}
-        <a href="{{ path("sortie_publication", {'id' : id}) }}">Publier la sortie</a>
+        <a href="{{ path("sortie_publication", {'id' : id}) }}"><button class="btn btn-primary">Publier la sortie</button></a>
     {% endif %}
+    </div>
 {% endblock %}
