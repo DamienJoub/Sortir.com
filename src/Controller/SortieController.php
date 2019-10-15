@@ -12,6 +12,7 @@ use App\Form\SortieType;
 use DateTime;
 use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,12 +26,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SortieController extends Controller {
 
-    /**
+    /*/**
      * @Route("/filtre", name="filtre")
      * @param EntityManagerInterface $em
      * @param Request $request
      * @return Response
      */
+    /*
     public function filtre(EntityManagerInterface $em, Request $request) {
 
         $sorties = $em -> getRepository(Sortie::class) -> findAll();
@@ -45,53 +47,85 @@ class SortieController extends Controller {
         $filtrePassee = $request->request->get('passee');
 
         foreach ($sorties as $sortie) {
-            if($sortie->getCampus() != $filtreCampus) {
-                // soit ajouter puis enlever les duplicate soit enlever direct
+            $etat = $sortie->getEtat()->getLibelle();
+            if($etat == "Créée" && $this->getUser() != $sortie->getParticipantO()) {
+
+            } else {
+                $isCompatible = true;
+                if($filtreCampus != null && $sortie->getCampus() != $filtreCampus) {
+                    $isCompatible = false;
+                    $this->addFlash("info", "campus");
+                }
+                if($filtreSearch != null && strpos($sortie->getNom(), $filtreSearch) !== true) {
+                    $isCompatible = false;
+                    $this->addFlash("info", "search");
+                }
+                if($filtreDateDebut != null && $filtreDateFin != null && ($sortie->getDateDebut()->getTimestamp() >= strtotime($filtreDateDebut)) && ($sortie->getDateDebut()->getTimestamp() <= strtotime($filtreDateFin))) {
+                    $isCompatible = false;
+                    $this->addFlash("info", "date");
+                }
+                if($filtreOrganisateur != null && $sortie->getParticipantO() != $filtreOrganisateur) {
+                    $isCompatible = false;
+                    $this->addFlash("info", "orga");
+                }
+                if($filtreInscrit != null) {
+                    $listeParticipants = $em -> getRepository(Participant::class) -> findBySortie($sortie);
+                    if(in_array($this->getUser(), $listeParticipants) == false) {
+                        $isCompatible = false;
+                        $this->addFlash("info", "inscrit");
+                    }
+                }
+                if($filtreNonInscrit != null) {
+                    $listeParticipants = $em -> getRepository(Participant::class) -> findBySortie($sortie);
+                    if(in_array($this->getUser(), $listeParticipants) == true) {
+                        $isCompatible = false;
+                        $this->addFlash("info", "non inscrit");
+                    }
+                }
+                if($filtrePassee != null && ($sortie->getEtat() != "Passée")) {
+                    $isCompatible = false;
+                    $this->addFlash("info", "passée");
+                }
+                if($filtreCampus != null && $isCompatible == true) {
+                    array_push($sortiesFiltrees, $sortie);
+                    $this->addFlash("info", "sortieFiltrees");
+                }
             }
-            /*if() {
-                array_push($sortiesFiltrees, $sortie);
-            }*/
         }
 
-        /*$data = $request->request->get('search');
-
-        $query = $em->createQuery(
-            'SELECT * FROM sortie:Suplier s
-                WHERE s.nom LIKE \'%:data%\'')
-            ->setParameter('data',$data);
-
-        $res = $query->getResult();
+        $campus = $em -> getRepository(Campus::class) -> findAll();
+        $isInscrit = $this->getIsInscrit($em, $sorties);
 
         return $this->render('sortie/liste.html.twig', array(
-            'res' => $res));*/
-    }
+            "sorties" => $sortiesFiltrees, "isInscrit" => $isInscrit, "campus" => $campus));
+    }*/
 
-    /**
-     * @Route("/liste", name="liste")
-     * @param EntityManagerInterface $em
-     * @return Response
-     */
-    public function liste(EntityManagerInterface $em) {
-
-        $sorties = $em -> getRepository(Sortie::class) -> findAll();
-        $campus = $em -> getRepository(Campus::class) -> findAll();
-
+    private function getIsInscrit($em, $sorties) {
         $isInscrit = array();
-
-        $dateDuJour = new DateTime();
-        $dateDuJour1 = new DateTime();
-        $dateDuJour1 = $dateDuJour1->modify('+1 day');
-
         foreach ($sorties as $sortie) {
             $listeParticipants = $em -> getRepository(Participant::class) -> findBySortie($sortie);
             if(in_array($this->getUser(), $listeParticipants)) {
                 array_push($isInscrit,$sortie);
             }
         }
+        return $isInscrit;
+    }
+
+    /**
+     * @Route("/liste", name="liste")
+     * @param EntityManagerInterface $em
+     * @return Response
+     * @throws Exception
+     */
+    public function liste(EntityManagerInterface $em) {
+
+        $sorties = $em -> getRepository(Sortie::class) -> findAll();
+        $campus = $em -> getRepository(Campus::class) -> findAll();
+
+        $isInscrit = $this->getIsInscrit($em, $sorties);
 
         return $this -> render("sortie/liste.html.twig",
-            ["sorties" => $sorties, "isInscrit" => $isInscrit, "campus" => $campus,
-                "dateDuJour" => $dateDuJour, "dateDuJour1" => $dateDuJour1]);
+            ["sorties" => $sorties, "isInscrit" => $isInscrit, "campus" => $campus]);
     }
 
     /**

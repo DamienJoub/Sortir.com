@@ -27,6 +27,20 @@ class Etat
     private $sorties;
 
     /**
+     * Etat constructor.
+     * @param $id
+     * @param $libelle
+     * @param $sorties
+     */
+    public function __construct($id, $libelle, $sorties)
+    {
+        $this->id = $id;
+        $this->libelle = $libelle;
+        $this->sorties = $sorties;
+    }
+
+
+    /**
      * @return mixed
      */
     public function getSorties()

@@ -6,11 +6,12 @@
         <div class="container">
             <h1 class="display-7">Filtrer les sorties</h1>
 
-            <form method="post" action="{{ path('sortie_filtre') }}">
+            <form method="post" {#action="{{ path('sortie_filtre') }}"#} onSubmit="return listeSorties(event)">
                 <div class="row">
                     <div class="col-sm-6">
                         <label for="listeCampus">Site</label>
                         <select class="browser-default custom-select" id="listeCampus" name="campus">
+                            <option selected="true" disabled="disabled">Choisissez un campus</option>
                             {% for unCampus in campus %}
                                 <option value="{{ unCampus.id }}">{{ unCampus.nom }}</option>
                             {% endfor %}
@@ -21,9 +22,9 @@
 
                         <div class="flex-sm-row">
                             <label for="dateDebut">Entre le</label>
-                            <input id="dateDebut" name="dateDebut" type="text" class="js-datepicker form-control" value="{{dateDuJour | date('d/m/Y H:i')}}">
+                            <input id="dateDebut" name="dateDebut" type="text" class="js-datepicker form-control">
                             <label for="dateFin">Et le</label>
-                            <input id="dateFin" name="dateFin" type="text" class="js-datepicker form-control" value="{{dateDuJour1 | date('d/m/Y H:i')}}">
+                            <input id="dateFin" name="dateFin" type="text" class="js-datepicker form-control">
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -54,7 +55,6 @@
                                 <label for="passee" class="custom-control-label">Sorties pass&eacute;es</label>
                             </div>
                         </div>
-
                         <div class="flex-row">&nbsp;</div>
                         <button type="submit" class="btn btn-outline-primary btn-lg">Rechercher</button>
                     </div>
@@ -64,7 +64,7 @@
     </div>
 
     <div>
-        <table class="table table-bordered table-condensed table-body-center" >
+        <table id="tableauSorties" class="table table-bordered table-condensed table-body-center" >
             <thead>
             <tr>
                 <th>Nom de la sortie</th>
@@ -123,4 +123,21 @@
         </table>
         <a href="{{ path("sortie_creer") }}"><button class="btn btn-primary">Cr&eacute;er une sortie</button></a>
     </div>
+
+    <script type="text/javascript">
+        function listeSorties(e) {
+            e.preventDefault();
+            var sorties = document.getElementById("tableauSorties").rows.length;
+
+            //document.getElementById("tableauSorties").style.display = 'none';
+
+            for (let i = 1; i < sorties; i++) {
+                var maSortie = document.getElementById("tableauSorties").rows[i].length;
+
+                for (let j = 0; j < maSortie; j++) {
+                    alert(maSortie.cells[j].innerText);
+                }
+            }
+        }
+    </script>
 {% endblock %}
