@@ -212,7 +212,9 @@ class SortieController extends Controller {
             if($sortie->getParticipantO() == $this->getUser() &&
                 ($sortie->getEtat()->getLibelle() == 'Créée' || $sortie->getEtat()->getLibelle() == 'Ouverte') &&
                 $sortie->getDateDebut() > new DateTime("now")){
-                $em->remove($sortie);
+                $sortie->setEtat($em->getRepository(Etat::class)->find(5));
+                $sortie->setParticipantsP(null);
+                $em->persist($sortie);
                 $em->flush();
             }
         }
