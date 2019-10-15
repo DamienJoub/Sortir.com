@@ -85,11 +85,11 @@
             {% elseif app.user not in  sortie.participantsP and sortie.dateCloture > "now"|date("Y/m/d") and sortie.etat.libelle == "Ouverte"%}
                 <a href="{{ path("sortie_inscription", {'id' : id}) }}"><button class="btn btn-primary">S'inscrire</button></a>
             {% endif %}
-            {% if app.user.administrateur or app.user == sortie.participantO and sortie.dateDebut > "now"|date("Y/m/d") and sortie.etat.libelle == "Créée" %}
+            {% if (app.user.administrateur or app.user == sortie.participantO) and sortie.dateDebut > "now"|date("Y/m/d") and sortie.etat.libelle == "Créée" %}
                 <a href="{{ path("sortie_publication", {'id' : id}) }}"><button class="btn btn-primary">Publier la sortie</button></a>
             {% endif %}
 
-            {% if app.user.administrateur or app.user == sortie.participantO and ( sortie.etat.libelle == "Ouverte" or sortie.etat.libelle == "Créée") and sortie.dateDebut > "now"|date("Y/m/d") %}
+            {% if (app.user.administrateur or app.user == sortie.participantO) and ( sortie.etat.libelle == "Ouverte" or sortie.etat.libelle == "Créée") and sortie.dateDebut > "now"|date("Y/m/d") %}
                 <a href="{{ path("sortie_modifier", {'id':sortie.id}) }}"><button class="btn btn-primary">Modifier</button></a>
                 <a href="{{ path("sortie_annuler", {'id':sortie.id}) }}" ><button class="btn btn-secondary">Annuler</button></a>
             {% endif %}
