@@ -16,13 +16,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SortieType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $date = new \DateTime();
+        $dateDebut = new \DateTime();
+        $dateCloture = new \DateTime();
         $campus = $options["campus"];
+        $sortie = $options["sortie"];
+        if($sortie->getId() != null){
+            $dateDebut = $sortie->getDateDebut();
+            $dateCloture = $sortie->getDateCloture();
+        }else{
+            $dateDebut ->add(new \DateInterval("PT2H"));
+        }
+
         $builder
             -> add('nom', TextType::class, ["label" => "Nom"])
             -> add('date_debut', DateTimeType::class, [
                 "label" => "Date et heure de début",
-                "data" => $date -> add(new \DateInterval("PT2H")),
+                "data" => $dateDebut,
                 "format" => "dd/MM/yyyy HH:mm",
                 "html5" => false,
                 "widget" => "single_text",
@@ -31,7 +40,7 @@ class SortieType extends AbstractType {
             -> add('duree', IntegerType::class, ["label" => "Durée (min)"])
             -> add('date_cloture', DateTimeType::class, [
                 "label" => "Date et heure de limite d'inscription",
-                "data" => new \DateTime(),
+                "data" => $dateCloture,
                 "format" => "dd/MM/yyyy HH:mm",
                 "widget" => "single_text",
                 "html5" => false,
@@ -54,6 +63,7 @@ class SortieType extends AbstractType {
     }
 
     public function configureOptions(OptionsResolver $resolver) {
+        $resolver -> setRequired("sortie");
         $resolver -> setRequired("campus");
         $resolver -> setDefaults([
             'data_class' => Sortie::class,

@@ -104,7 +104,7 @@ class SortieController extends Controller {
         $sortie = new Sortie();
 
 
-        $form = $this -> createForm(SortieType::class, $sortie, ["campus" => $this -> getUser() -> getCampus()]);
+        $form = $this -> createForm(SortieType::class, $sortie, ["campus" => $this -> getUser() -> getCampus(), "sortie" => new Sortie()]);
 
         $form -> handleRequest($request);
 
@@ -216,6 +216,34 @@ class SortieController extends Controller {
                 $sortie->setParticipantsP(null);
                 $em->persist($sortie);
                 $em->flush();
+            }
+        }
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
+     * @param int $id
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws \Exception
+     * @Route("/modifier/{id}" , name ="modifier" , requirements={"id"="\d+"})
+     */
+    public function modifier($id =-1, EntityManagerInterface $em, Request $request){
+        if ($id > 0){
+            $sortie = $em->getRepository(Sortie::class)->find($id);
+            if($sortie->getParticipantO() == $this->getUser() &&
+                ($sortie->getEtat()->getLibelle() == 'Créée' || $sortie->getEtat()->getLibelle() == 'Ouverte') &&
+                $sortie->getDateDebut() > new DateTime("now")){
+                $form = $this -> createForm(SortieType::class, $sortie, ["campus" => $this -> getUser() -> getCampus(), "sortie" => $sortie]);
+                $form -> handleRequest($request);
+                if($form -> isSubmitted() && $form -> isValid()){
+                    $sortie -> setCampus($this -> getUser() -> getCampus());
+                    $em->persist($sortie);
+                    $em->flush();
+                    return $this -> redirectToRoute("sortie_detail" , array("id" => $id));
+                }
+                return $this -> render("sortie/add.html.twig", ["sortieForm" => $form -> createView()]);
             }
         }
         return $this->redirect($request->headers->get('referer'));
