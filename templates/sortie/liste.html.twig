@@ -79,7 +79,7 @@
             </thead>
             <tbody>
             {% for sortie in sorties %}
-                {% if sortie.dateDebut|date_modify("+1 month") > "now"|date("Y/m/d")  and (
+                {% if app.user.administrateur or sortie.dateDebut|date_modify("+1 month") > "now"|date("Y/m/d")  and (
                     sortie.etat.libelle != "Créée" or(
                     sortie.participantO == app.user and sortie.etat.libelle == "Créée"))%}
                     <tr>
@@ -108,11 +108,11 @@
                             {% if app.user not in sortie.participantsP and sortie.etat.libelle == "Ouverte"%}
                                 <u><a href="{{ path("sortie_inscription", {'id':sortie.id}) }}"> - S'inscrire</a></u>
                             {% endif %}
-                            {% if app.user == sortie.participantO and ( sortie.etat.libelle == "Ouverte" or sortie.etat.libelle == "Créée") and sortie.dateDebut > "now"|date("Y/m/d") %}
+                            {% if app.user.administrateur or app.user == sortie.participantO and ( sortie.etat.libelle == "Ouverte" or sortie.etat.libelle == "Créée") and sortie.dateDebut > "now"|date("Y/m/d") %}
                                 <u><a href="{{ path("sortie_modifier", {'id':sortie.id}) }}">Modifier</a></u>
                                 <u><a href="{{ path("sortie_annuler", {'id':sortie.id}) }}" > - Annuler</a></u>
                             {% endif %}
-                            {% if app.user == sortie.participantO and sortie.etat.libelle == "Créée" %}
+                            {% if app.user.administrateur or app.user == sortie.participantO and sortie.etat.libelle == "Créée" %}
                                 <u><a href="{{ path("sortie_publication", {'id':sortie.id}) }}"> - Publier</a></u>
                             {% endif %}
                         </td>
