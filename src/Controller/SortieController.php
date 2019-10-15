@@ -199,4 +199,23 @@ class SortieController extends Controller {
         }
         return $this->redirect($request->headers->get('referer'));
     }
+
+    /**
+     * @param int $id
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @Route("/annuler/{id}" , name ="annuler" , requirements={"id"="\d+"})
+     */
+    public function annuler($id =-1, EntityManagerInterface $em, Request $request){
+        if ($id > 0){
+            $sortie = $em->getRepository(Sortie::class)->find($id);
+            if($sortie->getParticipantO() == $this->getUser() &&
+                ($sortie->getEtat()->getLibelle() == 'Créée' || $sortie->getEtat()->getLibelle() == 'Ouverte') &&
+                $sortie->getDateDebut() > new DateTime("now")){
+                $em->remove($sortie);
+                $em->flush();
+            }
+        }
+        return $this->redirect($request->headers->get('referer'));
+    }
 }
