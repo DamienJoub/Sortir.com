@@ -119,9 +119,6 @@
             {% endfor %}
             </tbody>
         </table>
-
-        {% if is_granted("ROLE_ADMIN") %}
-            <button class="btn btn-primary" href="{{ path("sortie_creer") }}">Cr&eacute;er une sortie</button>
-        {% endif %}
+        <a href="{{ path("sortie_creer") }}"><button class="btn btn-primary">Cr&eacute;er une sortie</button></a>
     </div>
 {% endblock %}
