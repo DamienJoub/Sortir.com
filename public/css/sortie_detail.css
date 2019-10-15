@@ -41,11 +41,6 @@
     background-color: #F3F3F3;
 }
 
-.btn-command {
-    display: flex;
-    justify-content: flex-end;
-}
-
 @media screen and (max-width: 750px) {
     #detail {
         width: 51%;
