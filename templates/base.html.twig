@@ -41,7 +41,7 @@
 
                             {% if is_granted("ROLE_ADMIN") %}
                                 <li><a href="{{ path("register") }}" title="Créer compte"><i class="fas fa-plus"></i> Créer un compte</a></li>
-                                <li><a href="{{ path("ville_list") }}" title="Ville">Ville</a></li>
+                                <li><a href="{{ path("ville") }}" title="Ville"><i class="fas fa-city"></i> Ville</a></li>
                                 <li><a href="#" title="Campus">Campus</a></li>
                                 <li><a href="{{ path("ajoutMultiple") }}" title="Ajout par CSV">Création multiple</a></li>
                             {% endif %}

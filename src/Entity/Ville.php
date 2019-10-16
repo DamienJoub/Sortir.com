@@ -3,9 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VilleRepository")
+ * @UniqueEntity(fields={"nom", "code_postal"},
+ *     message="Cette ville est déjà ajoutée !")
  */
 class Ville
 {
@@ -23,6 +27,7 @@ class Ville
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\Regex(pattern="/^([0-9]){5}+$/", message="Le code postal doit être un nombre à 5 chiffres !")
      */
     private $code_postal;
 

@@ -46,6 +46,7 @@ form > div:first-child {
     margin: auto;
 }
 
+
 @media screen and (max-width: 750px) {
     form > div:first-child {
         display: block;
@@ -65,5 +66,9 @@ form > div:first-child {
 
     .login {
         width: 94%;
+    }
+    .col-sm-2, .col-sm-10, .col-sm-6 {
+        padding-left: 0;
+        padding-right: 0;
     }
 }

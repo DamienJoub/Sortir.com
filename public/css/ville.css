@@ -1,7 +1,20 @@
-.ville_list .table td {
+.ville_list .table td, .ville_list .table th {
     border: 0;
 }
 
 .ville_list .table tbody tr:nth-child(odd) {
-    background-color: #F3F3F3;
+    background-color: #F8F8F8;
+}
+
+#ville .form-group {
+    width: unset;
+    align-self: flex-end;
+}
+
+#ville .form-group input {
+    margin-bottom: 0;
+}
+
+#ville .col-sm-10 {
+    padding-right: 15px;
 }
