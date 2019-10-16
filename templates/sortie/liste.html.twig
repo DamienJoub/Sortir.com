@@ -6,7 +6,7 @@
         <div class="container">
             <h1 class="display-7">Filtrer les sorties</h1>
 
-            <form method="post" {#action="{{ path('sortie_filtre') }}"#} onSubmit="return listeSorties(event)">
+            <form method="post" action="{{ path('sortie_filtre') }}" {#onSubmit="return listeSorties(event)"#}>
                 <div class="row">
                     <div class="col-sm-6">
                         <label for="listeCampus">Site</label>
@@ -95,11 +95,11 @@
                         </td>
                         <td>{{sortie.etat.libelle}}</td>
                         {% if sortie in isInscrit %}
-                            <td style="text-align: center">X</td>
+                            <td style="text-align: center"><img src="{{ asset('img/check.png') }}"></td>
                         {% else %}
                             <td> </td>
                         {% endif %}
-                        <td><u><a href="{{ path("profil", {'id':sortie.ParticipantO.id} ) }}">{{sortie.ParticipantO.prenom}} {{sortie.ParticipantO.nom}}</a></u></td>
+                        <td><u><a href="{{ path("profil", {'id':sortie.ParticipantO.id} ) }}">{{sortie.ParticipantO.prenom}} {{sortie.ParticipantO.nom | upper}}</a></u></td>
                         <td>
                             <u><a href="{{ path("sortie_detail", {'id':sortie.id}) }}">Afficher</a></u>
                             {% if  app.user in sortie.participantsP and sortie.etat.libelle == "Ouverte"%}
@@ -123,21 +123,4 @@
         </table>
         <a href="{{ path("sortie_creer") }}"><button class="btn btn-primary">Cr&eacute;er une sortie</button></a>
     </div>
-
-    <script type="text/javascript">
-        function listeSorties(e) {
-            e.preventDefault();
-            var sorties = document.getElementById("tableauSorties").rows.length;
-
-            //document.getElementById("tableauSorties").style.display = 'none';
-
-            for (let i = 1; i < sorties; i++) {
-                var maSortie = document.getElementById("tableauSorties").rows[i].length;
-
-                for (let j = 0; j < maSortie; j++) {
-                    alert(maSortie.cells[j].innerText);
-                }
-            }
-        }
-    </script>
 {% endblock %}

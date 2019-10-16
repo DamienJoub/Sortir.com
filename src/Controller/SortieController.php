@@ -26,13 +26,12 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SortieController extends Controller {
 
-    /*/**
+    /**
      * @Route("/filtre", name="filtre")
      * @param EntityManagerInterface $em
      * @param Request $request
      * @return Response
      */
-    /*
     public function filtre(EntityManagerInterface $em, Request $request) {
 
         $sorties = $em -> getRepository(Sortie::class) -> findAll();
@@ -52,43 +51,41 @@ class SortieController extends Controller {
 
             } else {
                 $isCompatible = true;
-                if($filtreCampus != null && $sortie->getCampus() != $filtreCampus) {
+                $nomCampus = $sortie->getCampus()->__toString();
+
+                if($filtreCampus != null && $nomCampus != $filtreCampus) {
                     $isCompatible = false;
-                    $this->addFlash("info", "campus");
                 }
-                if($filtreSearch != null && strpos($sortie->getNom(), $filtreSearch) !== true) {
+                if($filtreSearch != null && stripos($sortie->getNom(), $filtreSearch) === false) {
                     $isCompatible = false;
-                    $this->addFlash("info", "search");
                 }
-                if($filtreDateDebut != null && $filtreDateFin != null && ($sortie->getDateDebut()->getTimestamp() >= strtotime($filtreDateDebut)) && ($sortie->getDateDebut()->getTimestamp() <= strtotime($filtreDateFin))) {
+                $dateDebut = DateTime::createFromFormat("d/m/Y H:i", $filtreDateDebut);
+                $dateFin = DateTime::createFromFormat("d/m/Y H:i", $filtreDateFin);
+                if($filtreDateDebut != null && $filtreDateFin != null && ($dateDebut->getTimestamp() <= $sortie->getDateDebut()->getTimestamp() && ($dateFin->getTimestamp() >= $sortie->getDateDebut()->getTimestamp()))) {
+                } elseif ($filtreDateDebut != null && $filtreDateFin != null) {
                     $isCompatible = false;
-                    $this->addFlash("info", "date");
                 }
-                if($filtreOrganisateur != null && $sortie->getParticipantO() != $filtreOrganisateur) {
+                if($filtreOrganisateur != null && $sortie->getParticipantO() != $this->getUser()) {
                     $isCompatible = false;
-                    $this->addFlash("info", "orga");
                 }
                 if($filtreInscrit != null) {
                     $listeParticipants = $em -> getRepository(Participant::class) -> findBySortie($sortie);
                     if(in_array($this->getUser(), $listeParticipants) == false) {
                         $isCompatible = false;
-                        $this->addFlash("info", "inscrit");
                     }
                 }
                 if($filtreNonInscrit != null) {
                     $listeParticipants = $em -> getRepository(Participant::class) -> findBySortie($sortie);
                     if(in_array($this->getUser(), $listeParticipants) == true) {
                         $isCompatible = false;
-                        $this->addFlash("info", "non inscrit");
                     }
                 }
-                if($filtrePassee != null && ($sortie->getEtat() != "Passée")) {
+                if($filtrePassee != null && ($etat != "Passée")) {
                     $isCompatible = false;
-                    $this->addFlash("info", "passée");
                 }
-                if($filtreCampus != null && $isCompatible == true) {
+
+                if($isCompatible == true) {
                     array_push($sortiesFiltrees, $sortie);
-                    $this->addFlash("info", "sortieFiltrees");
                 }
             }
         }
@@ -98,7 +95,7 @@ class SortieController extends Controller {
 
         return $this->render('sortie/liste.html.twig', array(
             "sorties" => $sortiesFiltrees, "isInscrit" => $isInscrit, "campus" => $campus));
-    }*/
+    }
 
     private function getIsInscrit($em, $sorties) {
         $isInscrit = array();

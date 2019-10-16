@@ -31,6 +31,11 @@ class Campus
      */
     private $sorties;
 
+    public function __toString()
+    {
+        return (string) $this->getId();
+    }
+
     /**
      * @return mixed
      */
