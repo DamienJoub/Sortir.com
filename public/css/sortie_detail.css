@@ -41,6 +41,12 @@
     background-color: #F3F3F3;
 }
 
+.list-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
 @media screen and (max-width: 750px) {
     #detail {
         width: 51%;
@@ -50,5 +56,9 @@
     }
     .sortie-participant {
         width: 100%;
+    }
+    .list-buttons {
+        flex-direction: column;
+        align-items: flex-end;
     }
 }
