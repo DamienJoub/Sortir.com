@@ -27,23 +27,25 @@ class CsvController extends Controller
 
             $participant = new Participant();
             $participant->setMail($row['mail']);
-            $participant->setNom($row['nom']);
-            $participant->setPrenom($row['prenom']);
-            $participant->setTelephone($row['telephone']);
-            $password = $passwordEncoder->encodePassword($participant, $row['mot_de_passe']);
-            $participant->setMotDePasse($password);
-            $participant->setAdministrateur($row['administrateur']);
-            $participant->setActif($row['actif']);
-            $participant->setCampus($em -> getRepository(Campus::class) -> findOneByNom($row['campus']));
+            if($em->getRepository(Participant::class)->findByMail($participant->getMail()) == null){
+                $participant->setNom($row['nom']);
+                $participant->setPrenom($row['prenom']);
+                $participant->setTelephone($row['telephone']);
+                $password = $passwordEncoder->encodePassword($participant, $row['mot_de_passe']);
+                $participant->setMotDePasse($password);
+                $participant->setAdministrateur($row['administrateur']);
+                $participant->setActif($row['actif']);
+                $participant->setCampus($em -> getRepository(Campus::class) -> findOneByNom($row['campus']));
 
-            if ($participant->getAdministrateur()) {
-                $participant->setRoles(['ROLE_ADMIN']);
-            } else {
-                $participant->setRoles(['ROLE_USER']);
+                if ($participant->getAdministrateur()) {
+                    $participant->setRoles(['ROLE_ADMIN']);
+                } else {
+                    $participant->setRoles(['ROLE_USER']);
+                }
+
+                $em->persist($participant);
+                $em->flush();
             }
-
-            $em->persist($participant);
-            $em->flush();
         }
     }
 }
