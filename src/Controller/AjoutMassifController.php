@@ -17,7 +17,8 @@ class AjoutMassifController extends CsvController
      * @Route("/ajoutMultiple", name="ajoutMultiple")
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function ajoutMultiple(EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder){
+    public function ajoutMultiple(EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder,Request $request){
         $this->execute($em, $passwordEncoder);
+        return $this->redirect($request->headers->get('referer'));
     }
 }
