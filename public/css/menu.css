@@ -79,7 +79,8 @@
 #hamburger-sidebar-footer {
     position: fixed;
     bottom: 0;
-    left: 30%;
+    width: 100%;
+    text-align: center;
 }
 
 @media screen and (max-width: 750px) {

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h1 style="text-align: center">Gérer les villes</h1>
+    <div class="ville_list">
+        <table class="table table-bordered table-condensed table-body-center">
+            <thead>
+                <tr>
+                    <th>Ville</th>
+                    <th>Code Postal</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ville in villes %}
+                    <tr>
+                        <td>{{ ville.nom }}</td>
+                        <td>{{ ville.codePostal }}</td>
+                        <td><u><a href="#">Modifier</a></u></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

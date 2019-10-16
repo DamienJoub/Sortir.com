@@ -1,0 +1,7 @@
+.ville_list .table td {
+    border: 0;
+}
+
+.ville_list .table tbody tr:nth-child(odd) {
+    background-color: #F3F3F3;
+}
