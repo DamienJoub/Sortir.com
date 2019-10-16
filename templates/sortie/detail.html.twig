@@ -86,7 +86,7 @@
         <div class="btn-command">
             {% if app.user in sortie.participantsP  and sortie.dateDebut > "now"|date("Y/m/d")%}
                 <a href="{{ path("sortie_desinscription", {'id' : id}) }}"><button class="btn btn-secondary">Se désinscrire</button></a>
-            {% elseif app.user not in  sortie.participantsP and sortie.dateCloture > "now"|date("Y/m/d") and sortie.etat.libelle == "Ouverte"%}
+            {% elseif app.user not in  sortie.participantsP and sortie.dateCloture > "now"|date("Y/m/d") and sortie.etat.libelle == "Ouverte" and sortie.NbInscriptionMax > sortie.ParticipantsP|length %}
                 <a href="{{ path("sortie_inscription", {'id' : id}) }}"><button class="btn btn-primary">S'inscrire</button></a>
             {% endif %}
             {% if (app.user.administrateur or app.user == sortie.participantO) and sortie.dateDebut > "now"|date("Y/m/d") and sortie.etat.libelle == "Créée" %}

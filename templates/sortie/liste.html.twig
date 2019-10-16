@@ -105,7 +105,7 @@
                             {% if  app.user in sortie.participantsP and sortie.etat.libelle == "Ouverte"%}
                                 - <u><a href="{{ path("sortie_desinscription", {'id':sortie.id}) }}">Se d&eacute;sister</a></u>
                             {% endif %}
-                            {% if app.user not in sortie.participantsP and sortie.etat.libelle == "Ouverte"%}
+                            {% if app.user not in sortie.participantsP and sortie.etat.libelle == "Ouverte" and sortie.NbInscriptionMax > sortie.ParticipantsP|length %}
                                 - <u><a href="{{ path("sortie_inscription", {'id':sortie.id}) }}">S'inscrire</a></u>
                             {% endif %}
                             {% if (app.user.administrateur or app.user == sortie.participantO) and ( sortie.etat.libelle == "Ouverte" or sortie.etat.libelle == "Créée") and sortie.dateDebut > "now"|date("Y/m/d") %}

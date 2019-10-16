@@ -178,7 +178,7 @@ class SortieController extends Controller {
     public function inscription($id = -1, EntityManagerInterface $em, Request $request){
         if($id > 0) {
             $sortie = $em->getRepository(Sortie::class)->find($id);
-            if ($sortie->getDateCloture() > new DateTime("now") && $sortie->getEtat()->getLibelle() == 'Ouverte') {
+            if ($sortie->getDateCloture() > new DateTime("now") && $sortie->getEtat()->getLibelle() == 'Ouverte' && $sortie->getNbInscriptionMax() > sizeof($sortie->getParticipantsP())) {
                 $participants = $sortie->getParticipantsP()->toArray();
                 if (!in_array($this->getUser() , $participants)) {
                     array_push($participants, $this->getUser());
