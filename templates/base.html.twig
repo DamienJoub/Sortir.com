@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sortie_detail.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
@@ -42,7 +41,9 @@
                                 <li><a href="{{ path("register") }}" title="Créer compte"><i class="fas fa-plus"></i> Créer un compte</a></li>
                                 <li><a href="#" title="Ville">Ville</a></li>
                                 <li><a href="#" title="Campus">Campus</a></li>
+                                <li><a href="{{ path("ajoutMultiple") }}" title="Ajout par CSV">Création multiple</a></li>
                             {% endif %}
+
 
                             <li><a href="{{ path("logout") }}" title="Deconnexion"><i class="fas fa-sign-out-alt"></i> D&eacute;connexion</a></li>
                         {% else %}
@@ -87,7 +88,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-<script  type="text/javascript" src="{{ asset('js/burger-menu.js') }}"></script>
 <script type="text/javascript">
     $(function() {
         $('.js-datepicker').datetimepicker({
