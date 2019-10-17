@@ -74,3 +74,15 @@ $(function(){
     });
 
 });
+
+$(".users").on("click", function() {
+    console.log("ok");
+    if(screen.width <= 750) {
+        var ul = $(".gestion_user");
+        if (ul.css("display") === "none") {
+            ul.css("display", "block")
+        } else {
+            ul.css("display", "none");
+        }
+    }
+});

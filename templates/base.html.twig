@@ -31,19 +31,25 @@
         <div id="hamburger">
             <div id="hamburger-content">
                 <nav>
-                    <ul>
+                    <ul class="menu">
                         <li><a href="{{ path("home") }}" title="Sortir.com | Accueil"><i class="fas fa-home"></i> Accueil</a></li>
 
                         {% if is_granted("IS_AUTHENTICATED_REMEMBERED")  %}
-                            <li><a href="{{ path("monProfil") }}" title="Mon profil"><i class="fas fa-user"></i> Mon profil</a></li>
                             {#<li><a href="{{ path("sortie_creer") }}" title="Créer sortie">Créer une sortie</a></li>#}
                             {#<li>Bonjour {{ app.user.prenom }} !</li>#}
 
                             {% if is_granted("ROLE_ADMIN") %}
-                                <li><a href="{{ path("register") }}" title="Créer compte"><i class="fas fa-plus"></i> Créer un compte</a></li>
+                                <li class="users"><a><i class="fas fa-chevron-down"></i> Gestion utilisateur</a>
+                                    <ul class="gestion_user">
+                                        <li><a href="{{ path("monProfil") }}" title="Mon profil"><i class="fas fa-user"></i> Mon profil</a></li>
+                                        <li><a href="{{ path("register") }}" title="Créer compte"><i class="fas fa-plus"></i> Créer un compte</a></li>
+                                        <li><a href="{{ path("ajoutMultiple") }}" title="Ajout par CSV">Création multiple</a></li>
+                                    </ul>
+                                </li>
                                 <li><a href="{{ path("ville") }}" title="Ville"><i class="fas fa-city"></i> Ville</a></li>
                                 <li><a href="#" title="Campus">Campus</a></li>
-                                <li><a href="{{ path("ajoutMultiple") }}" title="Ajout par CSV">Création multiple</a></li>
+                                {% else %}
+                                    <li><a href="{{ path("monProfil") }}" title="Mon profil"><i class="fas fa-user"></i> Mon profil</a></li>
                             {% endif %}
 
                             <li><a href="{{ path("logout") }}" title="Deconnexion"><i class="fas fa-sign-out-alt"></i> D&eacute;connexion</a></li>

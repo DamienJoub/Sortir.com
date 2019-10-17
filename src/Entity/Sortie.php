@@ -47,6 +47,7 @@ class Sortie {
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Veuillez remplir un nombre de participant maximum !")
+     * @Assert\GreaterThan(value = 0, message="Le nombre de participant maximum doit supérieur à 0 !")
      */
     private $nb_inscription_max;
 
