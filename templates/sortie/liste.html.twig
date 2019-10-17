@@ -69,11 +69,11 @@
             <tr>
                 <th>Nom de la sortie</th>
                 <th>Date de la sortie</th>
-                <th>Clôture</th>
-                <th>Inscrits/Places</th>
-                <th>&Eacute;tat</th>
-                <th>Inscrit</th>
-                <th>Organisateur</th>
+                <th class="list-desktop">Clôture</th>
+                <th class="list-desktop">Inscrits/Places</th>
+                <th class="list-desktop">&Eacute;tat</th>
+                <th class="list-desktop">Inscrit</th>
+                <th class="list-desktop">Organisateur</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -85,21 +85,21 @@
                     <tr>
                         <td>{{sortie.nom}}</td>
                         <td>{{sortie.dateDebut | date('d/m/Y H:i')}}</td>
-                        <td>{{sortie.dateCloture | date('d/m/Y H:i')}}</td>
-                        <td>
+                        <td class="list-desktop">{{sortie.dateCloture | date('d/m/Y H:i')}}</td>
+                        <td class="list-desktop">
                             {% if sortie.etat.libelle != "Annulée" %}
                                 {{sortie.participantsP | length}}/{{sortie.nbInscriptionMax}}
                             {% else %}
                                  -/-
                             {% endif %}
                         </td>
-                        <td>{{sortie.etat.libelle}}</td>
+                        <td class="list-desktop">{{sortie.etat.libelle}}</td>
                         {% if sortie in isInscrit %}
-                            <td style="text-align: center"><img src="{{ asset('img/check.png') }}"></td>
+                            <td style="text-align: center" class="list-desktop"><img src="{{ asset('img/check.png') }}"></td>
                         {% else %}
-                            <td> </td>
+                            <td class="list-desktop"> </td>
                         {% endif %}
-                        <td><u><a href="{{ path("profil", {'id':sortie.ParticipantO.id} ) }}">{{sortie.ParticipantO.prenom}} {{sortie.ParticipantO.nom | upper}}</a></u></td>
+                        <td class="list-desktop"><u><a href="{{ path("profil", {'id':sortie.ParticipantO.id} ) }}">{{sortie.ParticipantO.prenom}} {{sortie.ParticipantO.nom | upper}}</a></u></td>
                         <td>
                             <u><a href="{{ path("sortie_detail", {'id':sortie.id}) }}">Afficher</a></u>
                             {% if  app.user in sortie.participantsP and sortie.etat.libelle == "Ouverte"%}

@@ -266,3 +266,13 @@ form ul > li {
     display: flex;
     justify-content: space-between;
 }
+
+.list-desktop {
+    display: table-cell;
+}
+
+@media screen and (max-width: 750px) {
+    .list-desktop {
+        display: none;
+    }
+}
