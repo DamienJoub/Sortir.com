@@ -44,10 +44,11 @@
                                         <li><a href="{{ path("monProfil") }}" title="Mon profil"><i class="fas fa-user"></i> Mon profil</a></li>
                                         <li><a href="{{ path("register") }}" title="Créer compte"><i class="fas fa-plus"></i> Créer un compte</a></li>
                                         <li><a href="{{ path("ajoutMultiple") }}" title="Ajout par CSV">Création multiple</a></li>
+                                        <li><a href="{{ path("allparticipants") }}" title="Liste des participants"><i class="fas fa-users"></i>Liste des participants</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="{{ path("ville") }}" title="Ville"><i class="fas fa-city"></i> Ville</a></li>
-                                <li><a href="#" title="Campus">Campus</a></li>
+                                <li><a href="#" title="Campus"><i class="fas fa-school"></i>Campus</a></li>
                                 {% else %}
                                     <li><a href="{{ path("monProfil") }}" title="Mon profil"><i class="fas fa-user"></i> Mon profil</a></li>
                             {% endif %}

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h2>Liste des participants</h2>
+
+{#    <select size="20" multiple>
+        {% for participant in participants %}
+        <option value="{{ participant.id }}">{{ participant.prenom }} {{ participant.nom | upper }}</option>
+        {% endfor %}
+    </select>#}
+    <ul>
+        {% for participant in participants %}
+            <li class="listParticipant">
+                <a href="{{ path("profil", {'id':participant.id} ) }}">{{participant.prenom}} {{participant.nom | upper}}</a>
+                <div>
+                    {% if participant.actif == true %}
+                        <a href="{{ path("setinactif", {id : participant.id}) }}" title="Rendre le participant inactif"><i class="fas fa-toggle-on fa-2x"></i></a>
+                    {% else %}
+                        <a href="{{ path("setinactif", {id : participant.id}) }}" title="Rendre le participant actif"><i class="fas fa-toggle-off fa-2x"></i></a>
+                    {% endif %}
+
+                    <a href="{{ path("delete_profil", {id : participant.id}) }}" title="Supprimer le participant"><span class="far fa-trash-alt fa-2x"></span></a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block title %}{{ parent() }} | Liste des participants{% endblock %}

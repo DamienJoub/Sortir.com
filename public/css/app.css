@@ -261,3 +261,8 @@ form ul > li {
 .profil .row label {
     font-weight: bold;
 }
+
+.listParticipant {
+    display: flex;
+    justify-content: space-between;
+}

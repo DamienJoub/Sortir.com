@@ -110,6 +110,9 @@ class ParticipantController extends Controller
 
     /**
      * @Route("/profil/{id}", name = "profil", requirements={"id"="\d+"})
+     * @param int $id
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse|Response
      */
     public function afficherProfil($id = -1, EntityManagerInterface $em){
         if($id >0){
@@ -118,5 +121,62 @@ class ParticipantController extends Controller
         }else{
             return $this->redirectToRoute("main_home");
         }
+    }
+
+    /**
+     * @Route("/allparticipants", name="allparticipants")
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function getAllParticipants(EntityManagerInterface $em) {
+        $participants = $em->getRepository(Participant::class)->findAll();
+
+        return $this->render("user/liste.html.twig", ["participants" => $participants]);
+    }
+
+    /**
+     * @Route("/setinactif/{id}", name="setinactif", requirements={"id"="\d+"})
+     * @param Participant $participant
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function setInactif(Participant $participant, EntityManagerInterface $em) {
+
+        if($participant->getActif() == true) {
+            $participant->setActif(false);
+        } else {
+            $participant->setActif(true);
+        }
+
+        $em->persist($participant);
+        $em->flush();
+
+        return $this->redirectToRoute("allparticipants");
+    }
+
+    /**
+     * @Route("/deleteprofil/{id}", name="delete_profil", requirements={"id"="\d+"})
+     * @param Participant $participant
+     * @param EntityManagerInterface $em
+     */
+    public function deleteProfil(Participant $participant, EntityManagerInterface $em) {
+        /*$sortiesOrga = $em->getRepository(Sortie::class)->findByParticipantO($participant->getId());
+
+        // Les sorties organisé pas le participant sont supprimées
+        foreach ($sortiesOrga as $sortie) {
+            $sortie->setParticipantsP(null);
+            $em->remove($sortie);
+        }
+
+        // Supprimé sont inscription aux sorties
+        $sorties = $em->getRepository(Sortie::class)->findAll();
+        foreach ($sorties as $sortie) {
+            $listeParticipants = $em -> getRepository(Participant::class) -> findBySortie($sortie);
+            // Si le participant est inscrit à la sortie
+            if(in_array($this->getUser(), $listeParticipants)) {
+                //\unset($listeParticipants[$this->getUser()]);
+                unset($listeParticipants[$this->getUser()]);
+            }
+        }*/
     }
 }

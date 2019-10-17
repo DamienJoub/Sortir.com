@@ -17,7 +17,9 @@
         </div>
         <input class="btn btn-primary" type="button" value="Retour" onclick="history.back()">
     </div>
-    <div>
-        <img src="{{ asset('uploads/photoProfil/' ~ profil.nomPhotoProfil) }}">
-    </div>
+    {% if profil.nomPhotoProfil != null %}
+        <div>
+            <img src="{{ asset('uploads/photoProfil/' ~ profil.nomPhotoProfil) }}">
+        </div>
+    {% endif %}
 {% endblock %}

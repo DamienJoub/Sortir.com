@@ -12,9 +12,11 @@
 
     {{ form_end (participantForm) }}
 
-    <div>
-        <img src="{{ asset('uploads/photoProfil/' ~ profil.nomPhotoProfil) }}">
-    </div>
+    {% if profil.nomPhotoProfil != null %}
+        <div>
+            <img src="{{ asset('uploads/photoProfil/' ~ profil.nomPhotoProfil) }}">
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block title %}{{ parent() }} | Accueil{% endblock %}
