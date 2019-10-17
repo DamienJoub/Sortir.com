@@ -14,7 +14,7 @@ class VilleType extends AbstractType {
         $builder
             -> add('nom', TextType::class, ["label" => "Nom"])
             -> add('code_postal', TextType::class, ["label" => "Code Postal"])
-            -> add("Valider", SubmitType::class, ["attr" => ["class" => "btn btn-primary"]])
+            -> add("Enregistrer", SubmitType::class, ["attr" => ["class" => "btn btn-primary"]])
         ;
     }
 

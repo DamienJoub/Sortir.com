@@ -28,7 +28,7 @@
 #hamburger-sidebar {
     display: none;
     position: fixed;
-    width: 84%;
+    width: 74%;
     z-index: 20;
     height: 100%;
     top: 0;

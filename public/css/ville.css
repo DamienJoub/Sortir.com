@@ -1,9 +1,37 @@
+.recherche_ville form {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.recherche_ville .form-group {
+    display: unset;
+    margin-bottom: 0;
+    width: unset;
+}
+.recherche_ville label {
+    font-weight: bold;
+    display: unset;
+}
+
+.recherche_ville .form-control {
+    display: unset;
+    width: unset;
+    min-width: unset;
+    margin: 0;
+}
+
+.ville_list {
+    margin-top: 20px;
+}
+
 .ville_list .table td, .ville_list .table th {
     border: 0;
 }
 
 .ville_list .table tbody tr:nth-child(odd) {
-    background-color: #F8F8F8;
+    background-color: #F3F3F3;
 }
 
 #ville .form-group {

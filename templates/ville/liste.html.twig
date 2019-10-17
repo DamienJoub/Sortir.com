@@ -1,8 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <h1 style="text-align: center">Gérer les villes</h1>
-    <div class="ville_list">
+    <h1 style="text-align: center" data-toggle="tooltip">Gérer les villes</h1>
+    <div class="recherche_ville">
+        <form method="post">
+            <div class="form-group">
+                <label for="search_ville">Le nom contient :</label>
+                <input type="text" name="search_ville" id="search_ville" class="form-control"/>
+            </div>
+            <button type="submit" class="btn btn-outline-primary">Rechercher</button>
+        </form>
+    </div>
+    <div class="ville_list" id="ville_list">
         <table class="table table-bordered table-condensed table-body-center">
             <thead>
                 <tr>
@@ -16,11 +25,20 @@
                     <tr>
                         <td>{{ ville.nom }}</td>
                         <td>{{ ville.codePostal }}</td>
-                        <td><u><a href="#">Modifier</a></u></td>
+                        <td>
+                            <u><a href="{{ path("ville", {"id": ville.id}) }}">Modifier</a></u>
+                            - <u><a class="delete-item" data-toggle="tooltip" title="Attention !" href="{{ path("ville_delete", {"id" : ville.id}) }}">Supprimer</a></u>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
     {{ form(villeForm) }}
+
+    {% include 'inc/modal-delete.html.twig'  %}
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js/script.js') }}"></script>
 {% endblock %}
