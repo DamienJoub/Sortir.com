@@ -48,6 +48,8 @@
                                     </ul>
                                 </li>
                                 <li><a href="{{ path("ville") }}" title="Ville"><i class="fas fa-city"></i> Ville</a></li>
+{#                                <li><a href="#" style="display:block;width:120px; height:30px;" onclick="document.getElementById('inputfile').click()">Ajout par CSV</a></li>#}
+{#                                <input type='file' id="inputfile" name="inputfile" style="display:none">#}
                                 <li><a href="#" title="Campus"><i class="fas fa-school"></i>Campus</a></li>
                                 {% else %}
                                     <li><a href="{{ path("monProfil") }}" title="Mon profil"><i class="fas fa-user"></i> Mon profil</a></li>
@@ -113,6 +115,27 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#inputfile').change(function(){
+            var file_data = $('#inputfile').prop('files')[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            $.ajax({
+                url: '{{ path('ajoutMultiple') }}',
+                type: "POST",
+                data: form_data,
+                contentType: "multipart/form_data",
+                cache: false,
+                processData:false,
+                success: function(toto){
+                    console.log(toto);
+                }
+            });
+        });
+    });
+</script>
 {% block javascript %}{% endblock %}
 </body>
 </html>
+
