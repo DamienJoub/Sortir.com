@@ -111,6 +111,27 @@ class Participant implements UserInterface
     private $roles = [];
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nomPhotoProfil;
+
+    /**
+     * @return mixed
+     */
+    public function getNomPhotoProfil()
+    {
+        return $this->nomPhotoProfil;
+    }
+
+    /**
+     * @param mixed $nomPhotoProfil
+     */
+    public function setNomPhotoProfil($nomPhotoProfil)
+    {
+        $this->nomPhotoProfil = $nomPhotoProfil;
+    }
+
+    /**
      * @return mixed
      */
     public function getSortiesOrganisation()

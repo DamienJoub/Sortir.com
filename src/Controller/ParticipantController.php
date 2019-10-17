@@ -13,6 +13,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ParticipantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +28,9 @@ class ParticipantController extends Controller
 
     /**
      * @Route("/monProfil", name ="monProfil")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return RedirectResponse|Response
      */
     public function gestionParticipant(Request $request, UserPasswordEncoderInterface $passwordEncoder){
 
@@ -50,6 +54,31 @@ class ParticipantController extends Controller
                     $participant->setMotDePasse($passwordEncoder->encodePassword($participant, $participantForm->get('mot_de_passe')->getData()));
                 }
 
+                /** UploadedFile $myFile */
+                $myFile = $participantForm['nomPhotoProfil']->getData();
+
+                // Cette condition est nécessaire car le fichier n'est pas obligatoire
+                // donc on fais toute ces histoires que si il y a un fichier
+                if ($myFile) {
+                    $originalFilename = pathinfo($myFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$myFile->guessExtension();
+
+                    // Move the file to the directory where files are stored
+                    try {
+                        $myFile->move(
+                            $this->getParameter('file_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        $participantForm->get('file')->addError($e);
+                        throw new FileException("Erreur lors de l'upload du fichier",0,$e);
+                    }
+
+                    $participant->setNomPhotoProfil($newFilename);
+                }
+
                 $participant->setNom($participantForm->get('nom')->getData());
                 $participant->setPrenom($participantForm->get('prenom')->getData());
                 $participant->setTelephone($participantForm->get('telephone')->getData());
@@ -61,7 +90,7 @@ class ParticipantController extends Controller
                     $em->flush();
                 }catch (UniqueConstraintViolationException $e){
                     $this->addFlash("danger", "Cette addresse e-mail est déjà prise par un autre utilisateur.");
-                    return $this->redirectToRoute("monProfil");
+                    return $this->redirectToRoute("monProfil", ["profil" => $participant]);
                 }
 
                 $this->addFlash('success', "Votre profil à été mis à jour.");
@@ -69,7 +98,8 @@ class ParticipantController extends Controller
             }
 
             return $this->render("main/monProfil.html.twig",[
-                "participantForm" => $participantForm->createView()
+                "participantForm" => $participantForm->createView(),
+                "profil" => $participant
             ]);
 
          //sinon on retourn à l'aceuil
@@ -84,7 +114,7 @@ class ParticipantController extends Controller
     public function afficherProfil($id = -1, EntityManagerInterface $em){
         if($id >0){
             $participant = $em->getRepository(Participant::class)->find($id);
-            return $this->render("user/profile.html.twig", ["profile" => $participant]);
+            return $this->render("user/profile.html.twig", ["profil" => $participant]);
         }else{
             return $this->redirectToRoute("main_home");
         }

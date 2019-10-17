@@ -1,16 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-        {{ form_start (participantForm)}}
+    {{ form_start (participantForm)}}
 
-        {{ form_widget(participantForm) }}
+    {{ form_widget(participantForm) }}
 
-        <div class="form-button">
-            <button type="submit" class="btn btn-primary">Valider</button>
-            <button type="reset" class="btn btn-secondary">Annuler</button>
-        </div>
+    <div class="form-button">
+        <button type="submit" class="btn btn-primary">Valider</button>
+        <button type="reset" class="btn btn-secondary">Annuler</button>
+    </div>
 
-        {{ form_end (participantForm) }}
+    {{ form_end (participantForm) }}
+
+    <div>
+        <img src="{{ asset('uploads/photoProfil/' ~ profil.nomPhotoProfil) }}">
+    </div>
 {% endblock %}
 
 {% block title %}{{ parent() }} | Accueil{% endblock %}

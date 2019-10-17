@@ -3,7 +3,6 @@
 
 namespace App\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,9 +26,9 @@ class MainController extends Controller
      */
     public function main_home(AuthenticationUtils $authenticationUtils): Response
     {
-         if ($this->getUser()) {
-             return $this->redirectToRoute("sortie_liste");
-         }
+        if ($this->getUser()) {
+         return $this->redirectToRoute("sortie_liste");
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

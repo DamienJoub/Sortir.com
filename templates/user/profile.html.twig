@@ -1,19 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <label style="display: flex; justify-content: center; font-size: 2rem">{{ profile.prenom }} {{ profile.nom }}</label>
+    <label style="display: flex; justify-content: center; font-size: 2rem">{{ profil.prenom }} {{ profil.nom }}</label>
     <div class="profil">
         <div class="row">
             <label>Téléphone :</label>
-            <p>{{ profile.telephone }}</p>
+            <p>{{ profil.telephone }}</p>
         </div>
         <div class="row">
             <label>Email :</label>
-            <p>{{ profile.mail }}</p>
+            <p>{{ profil.mail }}</p>
         </div>
-            <div class="row"><label>Campus :</label>
-                <p>{{ profile.campus.nom }}</p>
-            </div>
+        <div class="row">
+            <label>Campus :</label>
+            <p>{{ profil.campus.nom }}</p>
+        </div>
         <input class="btn btn-primary" type="button" value="Retour" onclick="history.back()">
+    </div>
+    <div>
+        <img src="{{ asset('uploads/photoProfil/' ~ profil.nomPhotoProfil) }}">
     </div>
 {% endblock %}

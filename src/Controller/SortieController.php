@@ -118,8 +118,20 @@ class SortieController extends Controller {
 
         $sorties = $em -> getRepository(Sortie::class) -> findAll();
         $campus = $em -> getRepository(Campus::class) -> findAll();
+        $etat = $em -> getRepository(Etat::class) -> find(4);
 
         $isInscrit = $this->getIsInscrit($em, $sorties);
+
+        // On teste la date de la sortie pour la mettre en "Passée" si elle est passée
+        $date = new DateTime();
+        foreach ($sorties as $sortie) {
+            if($sortie->getDateDebut()->getTimestamp() < $date->getTimestamp()) {
+                $sortie->setEtat($etat);
+                $em -> persist($sortie);
+            }
+        }
+
+        $em -> flush();
 
         return $this -> render("sortie/liste.html.twig",
             ["sorties" => $sorties, "isInscrit" => $isInscrit, "campus" => $campus]);
