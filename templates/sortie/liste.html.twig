@@ -109,7 +109,7 @@
                                 - <u><a href="{{ path("sortie_inscription", {'id':sortie.id}) }}">S'inscrire</a></u>
                             {% endif %}
                             {% if (app.user.administrateur or app.user == sortie.participantO) and ( sortie.etat.libelle == "Ouverte" or sortie.etat.libelle == "Créée") and sortie.dateDebut > "now"|date("Y/m/d") %}
-                                <u><a href="{{ path("sortie_modifier", {'id':sortie.id}) }}">Modifier</a></u>
+                                - <u><a href="{{ path("sortie_modifier", {'id':sortie.id}) }}">Modifier</a></u>
                                 - <u><a href="{{ path("sortie_annuler", {'id':sortie.id}) }}" >Annuler</a></u>
                             {% endif %}
                             {% if (app.user.administrateur or app.user == sortie.participantO) and sortie.etat.libelle == "Créée" %}
