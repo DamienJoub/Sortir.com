@@ -3,9 +3,9 @@
 
 {% block main %}
     {{ form_start(csvForm) }}
-
     <div class="form-button">
-        <button type="submit" class="btn btn-primary" >Valider</button>
+        {{ form_widget(csvForm) }}
+        <button type="submit" class="btn btn-primary" >Ajouter</button>
     </div>
     {{ form_end(csvForm) }}
 {% endblock %}
