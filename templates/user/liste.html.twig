@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <h2>Liste des participants</h2>
+    <h2 data-toggle="tooltip">Liste des participants</h2>
 
     <div class="jumbotron jumbotron-fluid bg-transparent" style="margin-top: -50px; border-bottom: 1px solid #D3D3D3; padding-bottom: 0px;">
         <div class="container">
@@ -24,7 +24,7 @@
 
     <ul>
         {% for participant in participants %}
-            <li class="listParticipant">
+            <li class="listParticipant" id="listParticipant">
                 <a href="{{ path("profil", {'id':participant.id} ) }}">{{participant.prenom}} {{participant.nom | upper}}</a>
                 <div>
                     {% if participant.actif == true %}
@@ -33,11 +33,17 @@
                         <a href="{{ path("setinactif", {id : participant.id}) }}" title="Rendre le participant actif"><i class="fas fa-toggle-off fa-2x"></i></a>
                     {% endif %}
 
-                    <a href="{{ path("delete_profil", {id : participant.id}) }}" title="Supprimer le participant"><span class="far fa-trash-alt fa-2x"></span></a>
+                    <a href="{{ path("delete_profil", {id : participant.id}) }}" title="Attention !" class="delete-item" data-toggle="tooltip"><span class="far fa-trash-alt fa-2x"></span></a>
                 </div>
             </li>
         {% endfor %}
     </ul>
+
+    {% include 'inc/modal-delete.html.twig'  %}
 {% endblock %}
 
 {% block title %}{{ parent() }} | Liste des participants{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js/script.js') }}"></script>
+{% endblock %}

@@ -18,11 +18,17 @@ $(function(){
             var title = $(this).attr('title');
             var tooltipTitle = $(this).data('original-title');
             var ville = document.getElementById("ville_list");
+            var participants = document.getElementById("listParticipant");
 
 
             //Modification du contenu de la fenêtre modale
             if(ville){
                 $('.modal-body p').text("Si vous supprimez cette ville, vous supprimerez également les sorties et lieux associés !");
+            }
+
+            if(participants) {
+                $('.modal-body p').text("Si vous supprimez cet utilisateur, vous le supprimez de la liste des participants pour les sorties auxquelles il est inscrit, et vous supprimerez également" +
+                    "les sorties dont il est l'organisateur !");
             }
 
             //A cause de la librairie tooltip.js

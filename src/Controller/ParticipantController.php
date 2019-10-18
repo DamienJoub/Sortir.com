@@ -190,23 +190,36 @@ class ParticipantController extends Controller
      * @param EntityManagerInterface $em
      */
     public function deleteProfil(Participant $participant, EntityManagerInterface $em) {
-        /*$sortiesOrga = $em->getRepository(Sortie::class)->findByParticipantO($participant->getId());
+        $sortiesOrga = $em -> getRepository(Sortie::class) -> findBy(["participant_o" => $participant -> getId()]);
 
         // Les sorties organisé pas le participant sont supprimées
-        foreach ($sortiesOrga as $sortie) {
-            $sortie->setParticipantsP(null);
-            $em->remove($sortie);
+        if($sortiesOrga) {
+            foreach ($sortiesOrga as $sortie) {
+                $sortie -> setParticipantsP(null);
+                $em -> remove($sortie);
+            }
         }
 
-        // Supprimé sont inscription aux sorties
-        $sorties = $em->getRepository(Sortie::class)->findAll();
+        // Supprimé son inscription aux sorties
+        $sorties = $em -> getRepository(Sortie::class) -> findAll();
         foreach ($sorties as $sortie) {
             $listeParticipants = $em -> getRepository(Participant::class) -> findBySortie($sortie);
             // Si le participant est inscrit à la sortie
-            if(in_array($this->getUser(), $listeParticipants)) {
+            if(in_array($this -> getUser(), $listeParticipants)) {
+                $index = array_search($this -> getUser(), $listeParticipants);
                 //\unset($listeParticipants[$this->getUser()]);
-                unset($listeParticipants[$this->getUser()]);
+                unset($listeParticipants[$index]);
+
+                $sortie -> setParticipantsP($listeParticipants);
+
+                $em -> persist($sortie);
             }
-        }*/
+        }
+
+        $em -> remove($participant);
+        $em -> flush();
+
+        $this -> addFlash("success", "L'utilisateur a bien été supprimé !");
+        return $this->redirectToRoute("allparticipants");
     }
 }
