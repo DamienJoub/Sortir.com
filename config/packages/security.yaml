@@ -49,6 +49,9 @@ security:
         #- { path: ^/category, roles: ROLE_ADMIN }
         #- { path: ^/ideas/add, roles: ROLE_USER }
         - { path: ^/sortie/creer, roles: ROLE_USER}
+        - {path: ^/allparticipants, roles: ROLE_ADMIN}
+        - {path: ^/ajoutMultiple, roles: ROLE_ADMIN}
+        - {path: ^/register, roles: ROLE_ADMIN}
 
     #hierarchy des roles: ici ROLE_ADMIN a aussi les droits de ROLE_USER
     role_hierarchy:
