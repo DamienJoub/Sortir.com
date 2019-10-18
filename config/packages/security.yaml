@@ -52,6 +52,10 @@ security:
         - {path: ^/allparticipants, roles: ROLE_ADMIN}
         - {path: ^/ajoutMultiple, roles: ROLE_ADMIN}
         - {path: ^/register, roles: ROLE_ADMIN}
+        - {path: ^/setinactif, roles: ROLE_ADMIN}
+        - {path: ^/deleteprofil, roles: ROLE_ADMIN}
+        - {path: ^/campus, roles: ROLE_ADMIN}
+        - {path: ^/ville, roles: ROLE_ADMIN}
 
     #hierarchy des roles: ici ROLE_ADMIN a aussi les droits de ROLE_USER
     role_hierarchy:
