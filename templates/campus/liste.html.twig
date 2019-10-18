@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h1 style="text-align: center" data-toggle="tooltip">Gérer les campus</h1>
+    <div class="recherche_campus">
+        <form method="post">
+            <div class="form-group">
+                <label for="search_campus">Le nom contient :</label>
+                <input type="text" name="search_campus" id="search_campus" class="form-control"/>
+            </div>
+            <button type="submit" class="btn btn-outline-primary">Rechercher</button>
+        </form>
+    </div>
+    <div class="campus_list" id="campus_list">
+        <table class="table table-bordered table-condensed table-body-center">
+            <thead>
+            <tr>
+                <th>Campus</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for campu in campus %}
+                <tr>
+                    <td>{{ campu.nom }}</td>
+                    <td>
+                        <u><a href="{{ path("campus", {"id": campu.id}) }}">Modifier</a></u>
+                        {#- <u><a class="delete-item" data-toggle="tooltip" title="Attention !" href="{{ path("campu_delete", {"id" : campu.id}) }}">Supprimer</a></u>#}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {{ form(campusForm) }}
+
+    {% include 'inc/modal-delete.html.twig'  %}
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js/script.js') }}"></script>
+{% endblock %}
