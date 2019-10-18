@@ -29,11 +29,16 @@ class AjoutMassifController extends CsvController
                 "csvForm" => $form->createView()
             ]);
         }
-//        $file= $request->files->get('inputfile');
+
         if($form['file']->getData() != null){
             $file = $form['file']->getData();
-            $file->move( $this->getParameter('file_csv'), 'listParticipants.csv');
-            $this->execute($em, $passwordEncoder);
+            $extension =  pathinfo($file->getClientOriginalExtension(), PATHINFO_FILENAME);
+            if($extension == 'csv'){
+                $file->move( $this->getParameter('file_csv'), 'listParticipants.csv');
+                $this->execute($em, $passwordEncoder);
+            }else{
+                return $this->redirect($request->headers->get('referer'));
+            }
         }
         return $this->redirectToRoute("main_home");
     }

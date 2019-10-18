@@ -30,9 +30,7 @@ class FichierCSVType  extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'mimeTypes' => [
-                            'text/csv',
-                        ],
+                        'mimeTypes' => 'text/csv',
                         'mimeTypesMessage' => 'Please upload a valid CSV document',
                     ])
                 ],
