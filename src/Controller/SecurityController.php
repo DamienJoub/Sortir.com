@@ -51,7 +51,7 @@ class SecurityController extends Controller
             }
 
             $this->addFlash("success", "Votre compte a bien été créé!");
-            return $this->redirectToRoute("login");
+            return $this->redirectToRoute("main_home");
         }
 
         return $this->render("user/register.html.twig", ["form" => $form->createView()]);

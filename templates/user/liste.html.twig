@@ -3,11 +3,25 @@
 {% block main %}
     <h2>Liste des participants</h2>
 
-{#    <select size="20" multiple>
-        {% for participant in participants %}
-        <option value="{{ participant.id }}">{{ participant.prenom }} {{ participant.nom | upper }}</option>
-        {% endfor %}
-    </select>#}
+    <div class="jumbotron jumbotron-fluid bg-transparent" style="margin-top: -50px; border-bottom: 1px solid #D3D3D3; padding-bottom: 0px;">
+        <div class="container">
+            <h1 class="display-7">Rechercher un participant</h1>
+
+            <form method="post" action="{{ path('participant_filtre') }}">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="searchInput">Le nom ou pr&eacute;nom du participant contient</label>
+                        <input id="searchInput" class="form-control" type="text" placeholder="Rechercher" name ="search">
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="flex-row">&nbsp;</div>
+                        <button type="submit" class="btn btn-outline-primary btn-lg">Rechercher</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <ul>
         {% for participant in participants %}
             <li class="listParticipant">

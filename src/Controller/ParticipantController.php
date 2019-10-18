@@ -25,6 +25,36 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class ParticipantController extends Controller
 {
+    /**
+     * @Route("/filtrepartcipant", name="participant_filtre")
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return Response
+     */
+    public function filtre(EntityManagerInterface $em, Request $request) {
+
+        $participants = $em -> getRepository(Participant::class) -> findAll();
+        $participantsFiltres = array();
+        $filtreSearch = $request->request->get('search');
+
+        foreach ($participants as $participant) {
+            $nomCompatible = true;
+            $prenomCompatible = true;
+
+            if($filtreSearch != null && stripos($participant->getNom(), $filtreSearch) === false) {
+                $nomCompatible = false;
+            }
+            if($filtreSearch != null && stripos($participant->getPrenom(), $filtreSearch) === false) {
+                $prenomCompatible = false;
+            }
+
+            if($nomCompatible == true || $prenomCompatible == true) {
+                array_push($participantsFiltres, $participant);
+            }
+        }
+
+        return $this->render("user/liste.html.twig", ["participants" => $participantsFiltres]);
+    }
 
     /**
      * @Route("/monProfil", name ="monProfil")
